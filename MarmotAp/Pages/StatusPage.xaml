@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MarmotAp.Pages.StatusPage"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             ios:Page.UseSafeArea="True"
+             xmlns:viewmodel="clr-namespace:MarmotAp.ViewModels"
+             x:DataType="viewmodel:StatusPageViewModel"
+             Title="{Binding Title}">
+    
+    <Grid x:Name="StatusPageGrid"
+          ColumnDefinitions="*,*"
+          ColumnSpacing="0"
+          RowDefinitions="*,Auto"
+          RowSpacing="8"
+          BackgroundColor="{AppThemeBinding Light={StaticResource LightBackground}, Dark={StaticResource DarkBackground}}">
+
+        <StackLayout Grid.RowSpan="2"
+                 Grid.ColumnSpan="2"
+                 BackgroundColor="Transparent">
+            <Grid RowDefinitions="*,*,*,*,*,*,*,*,*,*,*"
+              RowSpacing="4"
+                  ColumnSpacing="4"
+              HorizontalOptions="CenterAndExpand"
+              VerticalOptions="Center">
+
+                <Label Grid.Row="0"
+                Text="{Binding TuneValue}"
+                Style="{StaticResource ExtraLargeLabel}"
+                HorizontalOptions="CenterAndExpand"/>
+                
+                <Label Grid.Row="1"
+                   Text="{Binding MPHValue}"
+                   Style="{StaticResource ExtraLargeLabel}"
+                   HorizontalOptions="CenterAndExpand"/>
+
+                <Label Grid.Row="2"
+                   Text="Miles per Hour (MPH)"
+                   Style="{StaticResource MediumLabel}"
+                   HorizontalOptions="CenterAndExpand"/>
+
+                
+                <Label Grid.Row="3"
+                   Text="{Binding Timestamp,StringFormat='MPH at {0:H:mm:ss zzz}'}"
+                   Style="{StaticResource MediumLabel}"
+                   HorizontalOptions="CenterAndExpand"/>
+
+                <Label Grid.Row="4"
+                   Text="{Binding TuneValue}"
+                   Style="{StaticResource LargeLabel}"
+                   HorizontalOptions="Start"/>
+                
+                <Label Grid.Row="4" Grid.Column="2"
+                   Text="{Binding GearValue}"
+                   Style="{StaticResource LargeLabel}"
+                   HorizontalOptions="End"/>
+
+                <Label Grid.Row="4"
+                   Text="{Binding LockupValue}"
+                   Style="{StaticResource LargeLabel}"
+                   HorizontalOptions="CenterAndExpand"/>
+
+                <Label Grid.Row="9"
+                   Text="Connect to Bluetooth LE device."
+                   Style="{StaticResource LargeLabel}"
+                   HorizontalOptions="CenterAndExpand"/>
+
+                <Label Grid.Row="10"
+                   Text="Disconnect from Bluetooth LE device."
+                   Style="{StaticResource LargeLabel}"
+                   HorizontalOptions="CenterAndExpand"/>
+
+            </Grid>
+            
+        </StackLayout>
+
+        <Button x:Name="ConnectToButton"
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="8"
+            Command="{Binding ConnectToDeviceCandidateAsyncCommand}"
+            IsEnabled="{Binding IsNotBusy}"
+            IsVisible="{Binding IsNotRunning }"
+            Style="{StaticResource ButtonOutline}"
+            Text="Connect" />
+
+        <Button x:Name="DisconnectFromButton"
+            Grid.Row="1"
+            Grid.Column="1"
+            Margin="8"
+            Command="{Binding DisconnectFromDeviceAsyncCommand}"
+            IsEnabled="{Binding IsNotBusy}"
+            IsVisible="{Binding IsNotBusy}"
+            Style="{StaticResource ButtonOutline}"
+            Text="Disconnect" />
+
+        <ActivityIndicator x:Name="StatusPageActivityIndicator"
+                       Grid.ColumnSpan="2"
+                       IsRunning="{Binding IsBusy}"
+                       IsVisible="{Binding IsBusy}"
+                       HorizontalOptions="CenterAndExpand"
+                       VerticalOptions="StartAndExpand" />
+    </Grid>
+</ContentPage>

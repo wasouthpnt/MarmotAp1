@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MarmotAp.Pages.SettingsPage"
+             xmlns:ios="clr-namespace:Microsoft.Maui.Controls.PlatformConfiguration.iOSSpecific;assembly=Microsoft.Maui.Controls"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:vm="clr-namespace:MarmotAp.ViewModels"
+             x:DataType="vm:SettingsPageViewModel"
+             ios:Page.UseSafeArea="True"
+             Title="{Binding Title}">
+
+
+
+    <ScrollView VerticalOptions="FillAndExpand">
+        <VerticalStackLayout Padding="24">
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,*"
+                  ColumnDefinitions="*,*,*,*,*"
+                  RowSpacing="20"
+                  HorizontalOptions="Fill"
+                  VerticalOptions="Start">
+                <Button x:Name="SystemTheme"
+                    Grid.Row="0"
+                    Grid.Column="1" 
+                    Margin="8"
+                    Command="{Binding SetSystemThemeAsyncCommand}"
+                    Style="{StaticResource ButtonOutline}"
+                    Text="System" />
+                <Button x:Name="LightTheme"
+                    Grid.Row="0"
+                    Grid.Column="2" 
+                    Margin="8"
+                    Command="{Binding SetLightThemeAsyncCommand}"
+                    Style="{StaticResource ButtonOutline}"
+                    Text="Light" />
+                <Button x:Name="DarkTheme"
+                    Grid.Row="0"
+                    Grid.Column="3" 
+                    Margin="8"
+                    Command="{Binding SetDarkThemeAsyncCommand}"
+                    Style="{StaticResource ButtonOutline}"
+                    Text="Dark" />
+
+                
+                <Label Text="User Settings" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5"
+                   VerticalOptions="Center" 
+                   HorizontalOptions="CenterAndExpand" 
+                   Style="{StaticResource MoreLargeLabel}" TextColor="{AppThemeBinding 
+                                            Dark={StaticResource TextColorDark}, 
+                                            Light={StaticResource TextColor}}"/>
+
+                <Label Text="Change your unique Anteater name (12 characters MAX)" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="5"
+                   VerticalOptions="Center"
+                   HorizontalOptions="Center"
+                   Style="{StaticResource MediumLabel}" TextColor="{AppThemeBinding 
+                                                Dark={StaticResource TextColorDark}, 
+                                                Light={StaticResource TextColor}}"/>
+
+                <Entry Placeholder="Enter unique name" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="5" MaxLength="12" ClearButtonVisibility="WhileEditing"
+                    Text="{Binding NewDevName}" 
+                    Style="{StaticResource LargeLabel}" TextColor="{AppThemeBinding 
+                                                Dark={StaticResource TextColorDark}, 
+                                                Light={StaticResource TextColor}}"/>
+
+                <Label Text="Current Anteater Name" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="5"
+                    Style="{StaticResource LargeLabel}" TextColor="{AppThemeBinding 
+                                                Dark={StaticResource TextColorDark}, 
+                                                Light={StaticResource TextColor}}"/>
+
+                <Entry Text="{Binding CurrentDevName}" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="5"
+                    IsReadOnly="True"
+                    VerticalOptions="Center" 
+                    HorizontalOptions="CenterAndExpand" 
+                    Style="{StaticResource LargeLabel}" TextColor="{AppThemeBinding 
+                                                Dark={StaticResource TextColorDark}, 
+                                                Light={StaticResource TextColor}}"/>
+
+
+                <Button x:Name="ConnectToButton"
+                    Grid.Row="7"
+                    Grid.Column="0"  Grid.ColumnSpan="5"
+                    Margin="8"
+                    Command="{Binding SaveNewDeviceNameAsyncCommand}"
+                    
+                    Style="{StaticResource ButtonOutline}"
+                    Text="Save" />
+
+
+            </Grid>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
