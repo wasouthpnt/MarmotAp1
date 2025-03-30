@@ -1,3 +1,4 @@
+
 namespace MarmotAp.Pages;
 
 public partial class HomePage : ContentPage
@@ -6,6 +7,7 @@ public partial class HomePage : ContentPage
 	{
 		InitializeComponent();
         BindingContext = viewModel;
+        
     }
     protected override void OnNavigatedTo(NavigatedToEventArgs args)
     {
@@ -26,5 +28,6 @@ public partial class HomePage : ContentPage
     protected override void OnDisappearing()
     {
         base.OnDisappearing();
+
     }
 }

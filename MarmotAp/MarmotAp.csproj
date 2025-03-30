@@ -132,6 +132,10 @@
 	  <PackageReference Include="Syncfusion.Maui.Toolkit" Version="1.0.4" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Interface\" />
+	</ItemGroup>
+
 	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionMarmotApHideInfoBar="True" /></VisualStudio></ProjectExtensions>
 
 </Project>

@@ -49,9 +49,6 @@ namespace MarmotAp.ViewModels
 
             SaveNewDeviceNameAsyncCommand = new AsyncRelayCommand(SaveNewDeviceNameAsync);
 
-            //RadioButtonCheckChangedCommand = new AsyncRelayCommand(RadioButtonCheckChanged);
-            //ChangeCurrentPlayer2Command = new Command<object>(ChangeCurrentPlayer2);
-
         }
 
         [ObservableProperty]

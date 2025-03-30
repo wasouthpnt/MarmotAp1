@@ -132,12 +132,19 @@ public partial class StatusPageViewModel : BaseViewModel
 
                     if (App.g_Characteristic_1.CanUpdate)
                     {
+                       
+
+                        #region save device id to storage
+                        await SecureStorage.Default.SetAsync("device_name", $"{BluetoothLEService.Device.Name}");
+                        await SecureStorage.Default.SetAsync("device_id", $"{BluetoothLEService.Device.Id}");
+                        #endregion save device id to storage
+
                         App.g_Characteristic_1.ValueUpdated += FirepunkCharacteristic1_ValueUpdated;
                         await App.g_Characteristic_1.StartUpdatesAsync();
                     }
 
                 }
-                
+
             }
         }
         catch (Exception ex)

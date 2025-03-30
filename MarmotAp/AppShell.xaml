@@ -39,8 +39,10 @@
 
     <FlyoutItem Title="EditPage"
             FlyoutIcon="{StaticResource IconSync}">
+        
         <ShellContent ContentTemplate="{DataTemplate pages:EditPage}"
                   Route="EditPage">
+            
         </ShellContent>
     </FlyoutItem>
     
@@ -72,10 +74,11 @@
         </ShellContent>
     </FlyoutItem>
 
-    <FlyoutItem Title="Battery level"
+    <!--<FlyoutItem Title="Battery level"
                 FlyoutIcon="{StaticResource IconBatteryLevel}">
         <ShellContent ContentTemplate="{DataTemplate pages:BatteryLevelPage}"
                       Route="BatteryLevelPage">
         </ShellContent>
-    </FlyoutItem>
+    </FlyoutItem>-->
+    
 </Shell>

@@ -21,10 +21,10 @@ public partial class HomePageViewModel : BaseViewModel
         Title = $"Scan and select device";
 
         BluetoothLEService = bluetoothLEService;
-        // Wyatt test
+
         ConnectToDeviceCandidateAsyncCommand = new AsyncRelayCommand(ConnectToDeviceCandidateAsync);
 
-
+        // Wyatt test
         GoToStatusPageAsyncCommand = new AsyncRelayCommand<DeviceCandidate>(async (devicecandidate) => await GoToStatusPageAsync(devicecandidate));
 
         ScanNearbyDevicesAsyncCommand = new AsyncRelayCommand(ScanDevicesAsync);
@@ -110,10 +110,13 @@ public partial class HomePageViewModel : BaseViewModel
 
                     //if (FirepunkCharacteristic1.CanUpdate)
                     //{
-                        //FirepunkCharacteristic1.ValueUpdated += FirepunkCharacteristic1_ValueUpdated;
-                        //await FirepunkCharacteristic1.StartUpdatesAsync();
+                    //FirepunkCharacteristic1.ValueUpdated += FirepunkCharacteristic1_ValueUpdated;
+                    //await FirepunkCharacteristic1.StartUpdatesAsync();
                     //}
-
+                    #region save device id to storage
+                    await SecureStorage.Default.SetAsync("device_name", $"{BluetoothLEService.Device.Name}");
+                    await SecureStorage.Default.SetAsync("device_id", $"{BluetoothLEService.Device.Id}");
+                    #endregion save device id to storage
                 }
 
             }
@@ -145,6 +148,8 @@ public partial class HomePageViewModel : BaseViewModel
         BluetoothLEService.NewDeviceCandidateFromHomePage = deviceCandidate;
 
         Title = $"{deviceCandidate.Name}";
+
+        await ConnectToDeviceCandidateAsync();
 
         //await Shell.Current.GoToAsync("//StatusPage", true);
     }

@@ -1,5 +1,5 @@
+
 using Syncfusion.Maui.Core.Hosting;
-using Microsoft.Extensions.Logging;
 using Syncfusion.Maui.Toolkit.Hosting;
 namespace MarmotAp;
 
@@ -57,6 +57,7 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<BatteryLevelPageViewModel>();
         builder.Services.AddSingleton<BatteryLevelPage>();
+        
 
 #if DEBUG
         //builder.Logging.AddDebug();
