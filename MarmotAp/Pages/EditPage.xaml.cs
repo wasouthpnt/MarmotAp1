@@ -22,8 +22,7 @@ public partial class EditPage : ContentPage
     private bool bToggleShift32 = true;
     string currentTune = "1";
     string currentFile = "";
-    //XElement booksFromFile = XElement.Load(@"books.xml");
-    //XDocument tunes = new XDocument();
+    
 
     Tune tune1 = new Tune();
     Tune tune2 = new Tune();
@@ -38,33 +37,45 @@ public partial class EditPage : ContentPage
         tune2.SetDefaults();
         tune3.SetDefaults();
 
-        bool bFoundDefault = false;
-        List<string> list = ListFiles();
-        for (int i = 0; i < list.Count; i++)
-        {
-            if (!list[i].Contains("default"))
-            {
-                continue;
-            }
-            else
-            {
-                bFoundDefault = true;
-                //string sFile = list[i];
-                //System.IO.File.Delete(sFile);
-                System.Diagnostics.Debug.WriteLine("Found - default.xml");
+        //bool bFoundDefault = false;
+        //List<string> list = ListFiles();
+        //for (int i = 0; i < list.Count; i++)
+        //{
+        //    //if (list[i].Contains(".xml"))
+        //    //    System.IO.File.Delete(list[i]);
 
-                break;
-            }
-        }
-        if (!bFoundDefault)
-        {
-            System.Diagnostics.Debug.WriteLine("Creating default.xml");
+        //    if (!list[i].Contains("default"))
+        //    {
+        //        continue;
+        //    }
+        //    else
+        //    {
+        //        bFoundDefault = true;
+        //        //string sFile = list[i];
+        //        //System.IO.File.Delete("*.xml");
+        //        System.Diagnostics.Debug.WriteLine("Found - default.xml");
 
-            SaveDefaultTunes();
-        }
+        //        break;
+        //    }
+        //}
+        //if (!bFoundDefault)
+        //{
+        //    System.Diagnostics.Debug.WriteLine("Creating default.xml");
 
-        
+        //    SaveDefaultTunes();
+        //}
     }
+
+    protected override void OnNavigatedTo(NavigatedToEventArgs args)
+    {
+        base.OnNavigatedTo(args);
+    }
+
+    protected override void OnNavigatedFrom(NavigatedFromEventArgs args)
+    {
+        base.OnNavigatedFrom(args);
+    }
+
     protected override void OnAppearing()
     {
         base.OnAppearing();
@@ -79,7 +90,10 @@ public partial class EditPage : ContentPage
         AddVal.SelectedIndex = 14;
     }
 
-    
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+    }
 
     private void Unlock_Clicked(object sender, EventArgs e)
     {
@@ -200,69 +214,167 @@ public partial class EditPage : ContentPage
 
     private void Exit_Clicked(object sender, EventArgs e)
     {
+        //Shell.Current.GoToAsync("//HomePage", false);
+        
+    }
 
+    private string TuneSeriesToString(Tune tune, string seriesName)
+    {
+        string series = "";
+        Models.Point[] mp;
+        try
+        {
+            switch (seriesName)
+            {
+                case "Unlock":
+                    mp = tune.Unlock.ToArray();
+                    foreach (var p in mp)
+                    {
+                        series += p.y.ToString();
+                        series += ",";
+                    }
+                    series.TrimEnd(',');
+                    break;
+                case "Lockup":
+                    mp = tune.Lockup.ToArray();
+                    foreach (var p in mp)
+                    {
+                        series += p.y.ToString();
+                        series += ",";
+                    }
+                    series.TrimEnd(',');
+                    break;
+                case "ODon":
+                    mp = tune.ODon.ToArray();
+                    foreach (var p in mp)
+                    {
+                        series += p.y.ToString();
+                        series += ",";
+                    }
+                    series.TrimEnd(',');
+                    break;
+                case "ODoff":
+                    mp = tune.ODoff.ToArray();
+                    foreach (var p in mp)
+                    {
+                        series += p.y.ToString();
+                        series += ",";
+                    }
+                    series.TrimEnd(',');
+                    break;
+                case "Shift_12":
+                    mp = tune.Shift_12.ToArray();
+                    foreach (var p in mp)
+                    {
+                        series += p.y.ToString();
+                        series += ",";
+                    }
+                    series.TrimEnd(',');
+                    break;
+                case "Shift_23":
+                    mp = tune.Shift_23.ToArray();
+                    foreach (var p in mp)
+                    {
+                        series += p.y.ToString();
+                        series += ",";
+                    }
+                    series.TrimEnd(',');
+                    break;
+                case "Shift_21":
+                    mp = tune.Shift_21.ToArray();
+                    foreach (var p in mp)
+                    {
+                        series += p.y.ToString();
+                        series += ",";
+                    }
+                    series.TrimEnd(',');
+                    break;
+                case "Shift_32":
+                    mp = tune.Shift_32.ToArray();
+                    foreach (var p in mp)
+                    {
+                        series += p.y.ToString();
+                        series += ",";
+                    }
+                    series.TrimEnd(',');
+                    break;
+            }
+            return series.TrimEnd(',');
+        }
+        catch(Exception ex)
+        {
+            Shell.Current.DisplayAlert("TuneSeriesToString Error", ex.Message, "Ok");
+        }
+        return String.Empty;
     }
     private XDocument CreateXmlDocFromTunes()
     {
-        // TODO: 
-        XDocument d = new XDocument(
-                    new XComment("The Three Tunes."),
-                    new XProcessingInstruction("xml-stylesheet", "href='mystyle.css' title='Compact' type='text/css'"),
-                    new XElement("Tunes",
-                        new XElement("Tune1",
-                            new XElement("Unlock", "20,20,20,20,20,20,20,20,20,20"),
-                            new XElement("Lockup", "30,30,30,30,30,30,30,30,30,30"),
-                            new XElement("ODon", "40,40,40,40,40,40,40,40,40,40"),
-                            new XElement("ODoff", "50,50,50,50,50,50,50,50,50,50"),
-                            new XElement("Shift_12", "60,60,60,60,60,60,60,60,60,60"),
-                            new XElement("Shift_23", "70,70,70,70,70,70,70,70,70,70"),
-                            new XElement("Shift_21", "80,80,80,80,80,80,80,80,80,80"),
-                            new XElement("Shift_32", "90,90,90,90,90,90,90,90,90,90")
-                        ),
-                        new XElement("Tune2",
-                            new XElement("Unlock", "25,25,25,25,25,25,25,25,25,25"),
-                            new XElement("Lockup", "35,35,35,35,35,35,35,35,35,35"),
-                            new XElement("ODon", "45,45,45,45,45,45,45,45,45,45"),
-                            new XElement("ODoff", "55,55,55,55,55,55,55,55,55,55"),
-                            new XElement("Shift_12", "65,65,65,65,65,65,65,65,65,65"),
-                            new XElement("Shift_23", "75,75,75,75,75,75,75,75,75,75"),
-                            new XElement("Shift_21", "85,85,85,85,85,85,85,85,85,85"),
-                            new XElement("Shift_32", "95,95,95,95,95,95,95,95,95,95")
-                        ),
-                        new XElement("Tune3",
-                            new XElement("Unlock", "25,25,25,25,25,25,25,25,25,25"),
-                            new XElement("Lockup", "35,35,35,35,35,35,35,35,35,35"),
-                            new XElement("ODon", "45,45,45,45,45,45,45,45,45,45"),
-                            new XElement("ODoff", "55,55,55,55,55,55,55,55,55,55"),
-                            new XElement("Shift_12", "65,65,65,65,65,65,65,65,65,65"),
-                            new XElement("Shift_23", "75,75,75,75,75,75,75,75,75,75"),
-                            new XElement("Shift_21", "85,85,85,85,85,85,85,85,85,85"),
-                            new XElement("Shift_32", "95,95,95,95,95,95,95,95,95,95")
-                        ),
-                        new XComment("Tune Data."),
-                        new XElement("TuneData",
-                            new XElement("antiHunt", "0"),
-                            new XElement("gearRatio", "3.31"),
-                            new XElement("tireSize", "32.5"),
-                            new XElement("tpsMin", "0"),
-                            new XElement("tpsMax", "2.8"),
-                            new XElement("auxMin", "0.5"),
-                            new XElement("auxMax", "4.5"),
-                            new XElement("dsrevpermile", "2000"),
-                            new XElement("buildNum", "1"),
-                            new XElement("tempRatio", "0"),
-                            new XElement("pressure12", "45"),
-                            new XElement("pressure23", "100")
+        try
+        {
+            XDocument d = new XDocument(
+                        new XComment("The Three Tunes."),
+                        new XProcessingInstruction("xml-stylesheet", "href='mystyle.css' title='Compact' type='text/css'"),
+                        new XElement("Tunes",
+                            new XElement("Tune1",
+                                new XElement("Unlock", TuneSeriesToString(tune1, "Unlock")),
+                                new XElement("Lockup", TuneSeriesToString(tune1, "Lockup")),
+                                new XElement("ODon", TuneSeriesToString(tune1, "ODon")),
+                                new XElement("ODoff", TuneSeriesToString(tune1, "ODoff")),
+                                new XElement("Shift_12", TuneSeriesToString(tune1, "Shift_12")),
+                                new XElement("Shift_23", TuneSeriesToString(tune1, "Shift_23")),
+                                new XElement("Shift_21", TuneSeriesToString(tune1, "Shift_21")),
+                                new XElement("Shift_32", TuneSeriesToString(tune1, "Shift_32"))
+                            ),
+                            new XElement("Tune2",
+                               new XElement("Unlock", TuneSeriesToString(tune2, "Unlock")),
+                                new XElement("Lockup", TuneSeriesToString(tune2, "Lockup")),
+                                new XElement("ODon", TuneSeriesToString(tune2, "ODon")),
+                                new XElement("ODoff", TuneSeriesToString(tune2, "ODoff")),
+                                new XElement("Shift_12", TuneSeriesToString(tune2, "Shift_12")),
+                                new XElement("Shift_23", TuneSeriesToString(tune2, "Shift_23")),
+                                new XElement("Shift_21", TuneSeriesToString(tune2, "Shift_21")),
+                                new XElement("Shift_32", TuneSeriesToString(tune2, "Shift_32"))
+                            ),
+                            new XElement("Tune3",
+                                new XElement("Unlock", TuneSeriesToString(tune3, "Unlock")),
+                                new XElement("Lockup", TuneSeriesToString(tune3, "Lockup")),
+                                new XElement("ODon", TuneSeriesToString(tune3, "ODon")),
+                                new XElement("ODoff", TuneSeriesToString(tune3, "ODoff")),
+                                new XElement("Shift_12", TuneSeriesToString(tune3, "Shift_12")),
+                                new XElement("Shift_23", TuneSeriesToString(tune3, "Shift_23")),
+                                new XElement("Shift_21", TuneSeriesToString(tune3, "Shift_21")),
+                                new XElement("Shift_32", TuneSeriesToString(tune3, "Shift_32"))
+                            ),
+                            new XComment("Tune Data."),
+                            new XElement("TuneData",
+                                new XElement("antiHunt", "0"),
+                                new XElement("gearRatio", "3.31"),
+                                new XElement("tireSize", "32.5"),
+                                new XElement("tpsMin", "0"),
+                                new XElement("tpsMax", "2.8"),
+                                new XElement("auxMin", "0.5"),
+                                new XElement("auxMax", "4.5"),
+                                new XElement("dsrevpermile", "2000"),
+                                new XElement("buildNum", "1"),
+                                new XElement("tempRatio", "0"),
+                                new XElement("pressure12", "45"),
+                                new XElement("pressure23", "100")
+                            )
                         )
-                    )
-        );
+            );
 
-        d.Declaration = new XDeclaration("1.0", "utf-8", "true");
-        Console.WriteLine(d);
-        System.Diagnostics.Debug.WriteLine(d);
+            d.Declaration = new XDeclaration("1.0", "utf-8", "true");
+            Console.WriteLine(d);
+            System.Diagnostics.Debug.WriteLine(d);
 
-        return d;
+            return d;
+        }
+        catch(Exception ex)
+        {
+            Shell.Current.DisplayAlert("TuneSeriesToString Error", ex.Message, "Ok");
 
+        }
+        return null;
     }
 
     private void SaveDefaultTunes()
@@ -358,6 +470,7 @@ public partial class EditPage : ContentPage
                 var path = FileSystem.Current.AppDataDirectory;
                 var fullpath = Path.Combine(path, sans);
 
+                System.IO.File.Delete(fullpath);
                 d.Save(fullpath);
 
                 await DisplayAlert("Success", "File Saved!", "Ok");
@@ -369,7 +482,7 @@ public partial class EditPage : ContentPage
         }
         catch (Exception ex)
         {
-            await Shell.Current.DisplayAlert("Error", ex.Message, "Ok");
+            await Shell.Current.DisplayAlert("SaveFile_Clicked Error", ex.Message, "Ok");
 
         }
 
@@ -399,8 +512,12 @@ public partial class EditPage : ContentPage
         }
         foreach (string file in lst)
         {
+            
             if (file.Contains(".xml"))
-                FileList.Items.Add(file);
+            {
+                System.IO.FileInfo fi = new System.IO.FileInfo(file);
+                FileList.Items.Add(fi.Name);
+            }
         }
         FileList.IsVisible = true;
         FileList.Focus();
@@ -582,10 +699,6 @@ public partial class EditPage : ContentPage
         FileList.IsVisible = false;
     }
 
-    //private void bTune_Clicked(object sender, EventArgs e)
-    //{
-
-    //}
     private void Save_Clicked(object sender, EventArgs e)
     {
 

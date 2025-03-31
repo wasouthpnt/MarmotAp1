@@ -19,7 +19,7 @@ public class Tune
     public ObservableCollection<Models.Point> Shift_21 { get; set; }
     public ObservableCollection<Models.Point> Shift_32 { get; set; }
 
-    public string TuneTitle = "Tune";
+    public string TuneTitle { get; set; }
 
     public Tune ()
     {

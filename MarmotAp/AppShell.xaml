@@ -45,7 +45,16 @@
             
         </ShellContent>
     </FlyoutItem>
-    
+
+    <FlyoutItem Title="TunePage"
+            FlyoutIcon="{StaticResource IconSync}">
+
+        <ShellContent ContentTemplate="{DataTemplate pages:TunePage}"
+                  Route="TunePage">
+
+        </ShellContent>
+    </FlyoutItem>
+
     <FlyoutItem Title="Settings"
                 FlyoutIcon="{StaticResource IconGears}">
         <ShellContent ContentTemplate="{DataTemplate pages:SettingsPage}"
