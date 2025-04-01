@@ -40,8 +40,8 @@ public static class MauiProgram
         builder.Services.AddSingleton<StatusPageViewModel>();
         builder.Services.AddSingleton<StatusPage>();
 
-        builder.Services.AddSingleton<EditPageViewModel>();
-        builder.Services.AddSingleton<EditPage>();
+        //builder.Services.AddSingleton<EditPageViewModel>();
+        //builder.Services.AddSingleton<EditPage>();
 
         builder.Services.AddSingleton<SettingsPageViewModel>();
         builder.Services.AddSingleton<SettingsPage>();
@@ -55,8 +55,8 @@ public static class MauiProgram
         builder.Services.AddSingleton<PrivacyStatementPageViewModel>();
         builder.Services.AddSingleton<PrivacyStatementPage>();
 
-        builder.Services.AddSingleton<BatteryLevelPageViewModel>();
-        builder.Services.AddSingleton<BatteryLevelPage>();
+        //builder.Services.AddSingleton<BatteryLevelPageViewModel>();
+        //builder.Services.AddSingleton<BatteryLevelPage>();
         
 
 #if DEBUG

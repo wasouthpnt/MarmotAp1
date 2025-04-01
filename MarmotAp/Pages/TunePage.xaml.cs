@@ -18,6 +18,7 @@ public partial class TunePage : ContentPage
     Tune tune1 = new Tune();
     Tune tune2 = new Tune();
     Tune tune3 = new Tune();
+    TuneData tuneData = new TuneData();
     int icurrentTune = 0;
     string sCurrentFile = "";
 
@@ -185,6 +186,11 @@ public partial class TunePage : ContentPage
             Shift_32.ItemsSource = null;
             Shift_32.ItemsSource = tune3.Shift_32;
         }
+    }
+
+    private void Data_Clicked(object sender, EventArgs e)
+    {
+
     }
     private void SaveCurrentTune()
     {
@@ -588,7 +594,6 @@ public partial class TunePage : ContentPage
     }
     private async void ParseSelectedFileToTunes(string sFile)
     {
-        MyActivity.IsRunning = true;
         MyActivity.IsVisible = true;
         // TODO: Parse file to the graph
         List<TuneSeries> lstT1 = new List<TuneSeries>();
@@ -662,7 +667,6 @@ public partial class TunePage : ContentPage
         }
         finally
         {
-            MyActivity.IsRunning = false;
             MyActivity.IsVisible = false;
         }
     }
@@ -869,4 +873,40 @@ public partial class TunePage : ContentPage
             //btnShift_32.BackgroundColor = Color.Teal;
         }
     }
+
+    private void OnSwipeLeft(object sender, EventArgs e)
+    {
+        if (icurrentTune == 3)
+        {
+            Tune2_Clicked(sender, e);
+            return;
+        }
+        if (icurrentTune == 2)
+        {
+            Tune1_Clicked(sender, e);
+            return;
+        }
+    }
+
+    private void OnSwipeRight(object sender, EventArgs e)
+    {
+        if (icurrentTune == 1)
+        {
+            Tune2_Clicked(sender, e);
+            return;
+        }
+        if (icurrentTune == 2)
+        {
+            Tune3_Clicked(sender, e);
+            return;
+        }
+
+    }
+
+    private void OnSwipe_Right(object sender, SwipedEventArgs e)
+    {
+        string s = "";
+    }
+
+
 }

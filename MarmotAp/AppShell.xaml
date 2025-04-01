@@ -37,14 +37,14 @@
         </ShellContent>
     </FlyoutItem>
 
-    <FlyoutItem Title="EditPage"
+    <!--<FlyoutItem Title="EditPage"
             FlyoutIcon="{StaticResource IconSync}">
         
         <ShellContent ContentTemplate="{DataTemplate pages:EditPage}"
                   Route="EditPage">
             
         </ShellContent>
-    </FlyoutItem>
+    </FlyoutItem>-->
 
     <FlyoutItem Title="TunePage"
             FlyoutIcon="{StaticResource IconSync}">

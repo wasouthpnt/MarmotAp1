@@ -82,6 +82,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Pages\BatteryLevelPage.xaml.cs" />
+	  <Compile Remove="Pages\EditPage.xaml.cs" />
+	  <Compile Remove="ViewModels\BatteryLevelPageViewModel.cs" />
+	  <Compile Remove="ViewModels\EditPageViewModel.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Remove="Pages\BatteryLevelPage.xaml" />
+	  <MauiXaml Remove="Pages\EditPage.xaml" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <None Remove="Resources\Fonts\fa-brands-400.ttf" />
 	  <None Remove="Resources\Fonts\fa_solid.ttf" />
 	</ItemGroup>
@@ -97,12 +109,6 @@
 
 	<ItemGroup>
 	  <MauiXaml Update="Pages\AboutPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\BatteryLevelPage.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\EditPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\InstructionsPage.xaml">

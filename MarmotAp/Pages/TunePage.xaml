@@ -20,49 +20,42 @@
 
         <Grid x:Name="TuneButtonsGrid" RowDefinitions="Auto"
         ColumnDefinitions="*,*,*,*,*"
-        RowSpacing="10"
-        HorizontalOptions="Fill"
+        RowSpacing="6"
+        HorizontalOptions="Center"
         VerticalOptions="Start">
-            <Button x:Name="Tune1"
-          Grid.Row="0"
-          Grid.Column="1" 
-          Margin="8"
-               Clicked="Tune1_Clicked"
-          Style="{StaticResource ButtonOutline}"
-          Text="Tune 1" />
-            <Button x:Name="Tune2"
-          Grid.Row="0"
-          Grid.Column="2" 
-          Margin="8"
-                Clicked="Tune2_Clicked"
-          Style="{StaticResource ButtonOutline}"
-          Text="Tune 2" />
-            <Button x:Name="Tune3"
-          Grid.Row="0"
-          Grid.Column="3" 
-          Margin="8"
-                Clicked="Tune3_Clicked"
-          Style="{StaticResource ButtonOutline}"
-          Text="Tune 3" />
+            <Button x:Name="Tune1" Grid.Row="0" Grid.Column="0" Margin="8" WidthRequest="90"  Clicked="Tune1_Clicked" 
+                    Style="{StaticResource ButtonOutline}" Text="Tune 1" />
+
+            <Button x:Name="Tune2" Grid.Row="0" Grid.Column="1" Margin="8"  WidthRequest="90" Clicked="Tune2_Clicked"
+                    Style="{StaticResource ButtonOutline}" Text="Tune 2" />
+
+            <Button x:Name="Tune3" Grid.Row="0" Grid.Column="2" Margin="8" WidthRequest="90" Clicked="Tune3_Clicked"
+                    Style="{StaticResource ButtonOutline}" Text="Tune 3" />
+
+            <Button x:Name="Data" Grid.Row="0" Grid.Column="3" Margin="8" WidthRequest="90" Clicked="Data_Clicked"
+                    Style="{StaticResource ButtonOutline}" Text="Data" />
+            
             <ActivityIndicator x:Name="MyActivity" IsRunning="true" IsVisible="false" />
         </Grid>
 
+
+
         <charts:SfCartesianChart x:Name="MainChart" VerticalOptions="Start" HeightRequest="400" Margin="0" WidthRequest="500" HorizontalOptions="Start"
                          
-      BackgroundColor="{AppThemeBinding 
-       Dark={StaticResource WindowBackgroundColorDark}, 
-       Light={StaticResource WindowBackgroundColor}}">
+              BackgroundColor="{AppThemeBinding 
+               Dark={StaticResource WindowBackgroundColorDark}, 
+               Light={StaticResource WindowBackgroundColor}}">
 
 
             <!--<charts:SfCartesianChart.Title>
 
-        <Label Text="{Binding ChartTitle}" HeightRequest="26" TextColor="{AppThemeBinding 
-                                        Dark={StaticResource TextColorDark}, 
-                                        Light={StaticResource TextColor}}"
-                    FontSize="22" FontAttributes="Bold" HorizontalTextAlignment="Center">
-        </Label>
+                <Label Text="{Binding ChartTitle}" HeightRequest="26" TextColor="{AppThemeBinding 
+                                                Dark={StaticResource TextColorDark}, 
+                                                Light={StaticResource TextColor}}"
+                            FontSize="22" FontAttributes="Bold" HorizontalTextAlignment="Center">
+                </Label>
 
-    </charts:SfCartesianChart.Title>-->
+            </charts:SfCartesianChart.Title>-->
 
             <charts:SfCartesianChart.BindingContext>
                 <vm:TunePageViewModel/>
@@ -227,8 +220,8 @@
 
             </charts:SfCartesianChart.Series>
 
-        </charts:SfCartesianChart>
-
+            </charts:SfCartesianChart>
+        
         <Grid RowDefinitions="Auto,Auto,Auto,Auto"
             ColumnDefinitions="*,*,*,*,*,*,*,*,*"
             RowSpacing="10"
@@ -350,11 +343,11 @@
                     Light={StaticResource TextColor}}" />
 
             </Grid>
-            
+
         </StackLayout>
 
 
 
     </StackLayout>
-    
+
 </ContentPage>
