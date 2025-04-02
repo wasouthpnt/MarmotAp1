@@ -43,7 +43,7 @@ public partial class TunePage : ContentPage
             }
         }
         AddVal.SelectedIndex = 14;
-        
+
 
     }
     protected override void OnDisappearing()
@@ -52,35 +52,48 @@ public partial class TunePage : ContentPage
     }
     private void InitTunes()
     {
+
+        //string last_file = SecureStorage.Default.GetAsync("last_File");
+        string last_file = Preferences.Get("Last_File", "default.xml");
+
+        if (last_file != null)
+        {
+            if (last_file == "default.xml")
+                SaveDefaultTunes();
+            ParseSelectedFileToTunes(last_file);
+        }
+
+        
+        
         // Tune1
-        tune1.Unlock = Unlock.ItemsSource as ObservableCollection<Models.Point>;
-        tune1.Lockup = Lockup.ItemsSource as ObservableCollection<Models.Point>;
-        tune1.ODoff = ODoff.ItemsSource as ObservableCollection<Models.Point>;
-        tune1.ODon = ODon.ItemsSource as ObservableCollection<Models.Point>;
-        tune1.Shift_12 = Shift_12.ItemsSource as ObservableCollection<Models.Point>;
-        tune1.Shift_23 = Shift_23.ItemsSource as ObservableCollection<Models.Point>;
-        tune1.Shift_21 = Shift_21.ItemsSource as ObservableCollection<Models.Point>;
-        tune1.Shift_32 = Shift_32.ItemsSource as ObservableCollection<Models.Point>;
+        //tune1.Unlock = Unlock.ItemsSource as ObservableCollection<Models.Point>;
+        //tune1.Lockup = Lockup.ItemsSource as ObservableCollection<Models.Point>;
+        //tune1.ODoff = ODoff.ItemsSource as ObservableCollection<Models.Point>;
+        //tune1.ODon = ODon.ItemsSource as ObservableCollection<Models.Point>;
+        //tune1.Shift_12 = Shift_12.ItemsSource as ObservableCollection<Models.Point>;
+        //tune1.Shift_23 = Shift_23.ItemsSource as ObservableCollection<Models.Point>;
+        //tune1.Shift_21 = Shift_21.ItemsSource as ObservableCollection<Models.Point>;
+        //tune1.Shift_32 = Shift_32.ItemsSource as ObservableCollection<Models.Point>;
 
-        // Tune2
-        tune2.Unlock = Unlock.ItemsSource as ObservableCollection<Models.Point>;
-        tune2.Lockup = Lockup.ItemsSource as ObservableCollection<Models.Point>;
-        tune2.ODoff = ODoff.ItemsSource as ObservableCollection<Models.Point>;
-        tune2.ODon = ODon.ItemsSource as ObservableCollection<Models.Point>;
-        tune2.Shift_12 = Shift_12.ItemsSource as ObservableCollection<Models.Point>;
-        tune2.Shift_23 = Shift_23.ItemsSource as ObservableCollection<Models.Point>;
-        tune2.Shift_21 = Shift_21.ItemsSource as ObservableCollection<Models.Point>;
-        tune2.Shift_32 = Shift_32.ItemsSource as ObservableCollection<Models.Point>;
+        //// Tune2
+        //tune2.Unlock = Unlock.ItemsSource as ObservableCollection<Models.Point>;
+        //tune2.Lockup = Lockup.ItemsSource as ObservableCollection<Models.Point>;
+        //tune2.ODoff = ODoff.ItemsSource as ObservableCollection<Models.Point>;
+        //tune2.ODon = ODon.ItemsSource as ObservableCollection<Models.Point>;
+        //tune2.Shift_12 = Shift_12.ItemsSource as ObservableCollection<Models.Point>;
+        //tune2.Shift_23 = Shift_23.ItemsSource as ObservableCollection<Models.Point>;
+        //tune2.Shift_21 = Shift_21.ItemsSource as ObservableCollection<Models.Point>;
+        //tune2.Shift_32 = Shift_32.ItemsSource as ObservableCollection<Models.Point>;
 
-        // Tune3
-        tune3.Unlock = Unlock.ItemsSource as ObservableCollection<Models.Point>;
-        tune3.Lockup = Lockup.ItemsSource as ObservableCollection<Models.Point>;
-        tune3.ODoff = ODoff.ItemsSource as ObservableCollection<Models.Point>;
-        tune3.ODon = ODon.ItemsSource as ObservableCollection<Models.Point>;
-        tune3.Shift_12 = Shift_12.ItemsSource as ObservableCollection<Models.Point>;
-        tune3.Shift_23 = Shift_23.ItemsSource as ObservableCollection<Models.Point>;
-        tune3.Shift_21 = Shift_21.ItemsSource as ObservableCollection<Models.Point>;
-        tune3.Shift_32 = Shift_32.ItemsSource as ObservableCollection<Models.Point>;
+        //// Tune3
+        //tune3.Unlock = Unlock.ItemsSource as ObservableCollection<Models.Point>;
+        //tune3.Lockup = Lockup.ItemsSource as ObservableCollection<Models.Point>;
+        //tune3.ODoff = ODoff.ItemsSource as ObservableCollection<Models.Point>;
+        //tune3.ODon = ODon.ItemsSource as ObservableCollection<Models.Point>;
+        //tune3.Shift_12 = Shift_12.ItemsSource as ObservableCollection<Models.Point>;
+        //tune3.Shift_23 = Shift_23.ItemsSource as ObservableCollection<Models.Point>;
+        //tune3.Shift_21 = Shift_21.ItemsSource as ObservableCollection<Models.Point>;
+        //tune3.Shift_32 = Shift_32.ItemsSource as ObservableCollection<Models.Point>;
 
     }
     private void Tune1_Clicked(object sender, EventArgs e)
@@ -191,6 +204,70 @@ public partial class TunePage : ContentPage
     private void Data_Clicked(object sender, EventArgs e)
     {
 
+    }
+
+    private void SaveDefaultTunes()
+    {
+        XDocument d = new XDocument(
+                    new XComment("The Three Tunes."),
+                    new XProcessingInstruction("xml-stylesheet", "href='mystyle.css' title='Compact' type='text/css'"),
+                    new XElement("Tunes",
+                        new XElement("Tune1",
+                            new XElement("Unlock", "20,20,20,20,20,20,20,20,20,20"),
+                            new XElement("Lockup", "30,30,30,30,30,30,30,30,30,30"),
+                            new XElement("ODon", "40,40,40,40,40,40,40,40,40,40"),
+                            new XElement("ODoff", "50,50,50,50,50,50,50,50,50,50"),
+                            new XElement("Shift_12", "60,60,60,60,60,60,60,60,60,60"),
+                            new XElement("Shift_23", "70,70,70,70,70,70,70,70,70,70"),
+                            new XElement("Shift_21", "80,80,80,80,80,80,80,80,80,80"),
+                            new XElement("Shift_32", "90,90,90,90,90,90,90,90,90,90")
+                        ),
+                        new XElement("Tune2",
+                            new XElement("Unlock", "25,25,25,25,25,25,25,25,25,25"),
+                            new XElement("Lockup", "35,35,35,35,35,35,35,35,35,35"),
+                            new XElement("ODon", "45,45,45,45,45,45,45,45,45,45"),
+                            new XElement("ODoff", "55,55,55,55,55,55,55,55,55,55"),
+                            new XElement("Shift_12", "65,65,65,65,65,65,65,65,65,65"),
+                            new XElement("Shift_23", "75,75,75,75,75,75,75,75,75,75"),
+                            new XElement("Shift_21", "85,85,85,85,85,85,85,85,85,85"),
+                            new XElement("Shift_32", "95,95,95,95,95,95,95,95,95,95")
+                        ),
+                        new XElement("Tune3",
+                            new XElement("Unlock", "30,30,30,30,30,30,30,30,30,30"),
+                            new XElement("Lockup", "35,35,35,35,35,35,35,35,35,35"),
+                            new XElement("ODon", "40,40,40,40,40,40,40,40,40,40"),
+                            new XElement("ODoff", "45,45,45,45,45,45,45,45,45,45"),
+                            new XElement("Shift_12", "50,50,50,50,50,50,50,50,50,50"),
+                            new XElement("Shift_23", "55,55,55,55,55,55,55,55,55,55"),
+                            new XElement("Shift_21", "60,60,60,60,60,60,60,60,60,60"),
+                            new XElement("Shift_32", "65,65,65,65,65,65,65,65,65,65")
+                        ),
+                        new XComment("Tune Data."),
+                        new XElement("TuneData",
+                            new XElement("antiHunt", "0"),
+                            new XElement("gearRatio", "3.31"),
+                            new XElement("tireSize", "32.5"),
+                            new XElement("tpsMin", "0"),
+                            new XElement("tpsMax", "2.8"),
+                            new XElement("auxMin", "0.5"),
+                            new XElement("auxMax", "4.5"),
+                            new XElement("dsrevpermile", "2000"),
+                            new XElement("buildNum", "1"),
+                            new XElement("tempRatio", "0"),
+                            new XElement("pressure12", "45"),
+                            new XElement("pressure23", "100")
+                        )
+                    )
+        );
+
+        d.Declaration = new XDeclaration("1.0", "utf-8", "true");
+        Console.WriteLine(d);
+        System.Diagnostics.Debug.WriteLine(d);
+
+        var path = FileSystem.Current.AppDataDirectory;
+        var fullpath = Path.Combine(path, "default.xml");
+
+        d.Save(fullpath);
     }
     private void SaveCurrentTune()
     {
@@ -454,8 +531,6 @@ public partial class TunePage : ContentPage
 
             if (sans != null && sans.ToString().ToLower().EndsWith(".xml"))
             {
-                //List<string> strings = new List<string>();
-
                 XDocument d = CreateXmlDocFromTunes();
                 var path = FileSystem.Current.AppDataDirectory;
                 var fullpath = Path.Combine(path, sans);
@@ -595,7 +670,7 @@ public partial class TunePage : ContentPage
     private async void ParseSelectedFileToTunes(string sFile)
     {
         MyActivity.IsVisible = true;
-        // TODO: Parse file to the graph
+        
         List<TuneSeries> lstT1 = new List<TuneSeries>();
         List<TuneSeries> lstT2 = new List<TuneSeries>();
         List<TuneSeries> lstT3 = new List<TuneSeries>();
@@ -612,8 +687,6 @@ public partial class TunePage : ContentPage
                 string s = n.InnerText.ToString();
                 lstT1.Add(new TuneSeries(name, s));
                 System.Diagnostics.Debug.WriteLine(String.Format("{0} - Series= {1}", name, s));
-
-
             }
             XmlNode t2 = doc.DocumentElement.SelectSingleNode("/Tunes/Tune2");
             foreach (XmlNode n in t2.ChildNodes)
@@ -686,6 +759,8 @@ public partial class TunePage : ContentPage
 
             ParseSelectedFileToTunes(sel.ToString());
             sCurrentFile = sel.ToString();
+
+            Preferences.Set("Last_File", sCurrentFile);
 
         }
         FileList.IsVisible = false;
@@ -839,14 +914,7 @@ public partial class TunePage : ContentPage
             Shift_21.IsVisible = false;
             Shift_32.IsVisible = false;
 
-            //btnUnlock.BackgroundColor = Color.Teal;
-            //btnLockup.BackgroundColor = Color.Teal;
-            //btnODoff.BackgroundColor = Color.Teal;
-            //btnODon.BackgroundColor = Color.Teal;
-            //btnShift_12.BackgroundColor = Color.Teal;
-            //btnShift_23.BackgroundColor = Color.Teal;
-            //btnShift_21.BackgroundColor = Color.Teal;
-            //btnShift_32.BackgroundColor = Color.Teal;
+
             ls.IsVisible = true;
             //btn.BackgroundColor = Color.RosyBrown;
 
@@ -863,19 +931,19 @@ public partial class TunePage : ContentPage
             Shift_21.IsVisible = true;
             Shift_32.IsVisible = true;
 
-            //btnUnlock.BackgroundColor = Color.Teal;
-            //btnLockup.BackgroundColor = Color.Teal;
-            //btnODoff.BackgroundColor = Color.Teal;
-            //btnODon.BackgroundColor = Color.Teal;
-            //btnShift_12.BackgroundColor = Color.Teal;
-            //btnShift_23.BackgroundColor = Color.Teal;
-            //btnShift_21.BackgroundColor = Color.Teal;
-            //btnShift_32.BackgroundColor = Color.Teal;
         }
     }
 
     private void OnSwipeLeft(object sender, EventArgs e)
     {
+        if (TuneDataStack.IsVisible == true)
+        {
+            TuneDataStack.IsVisible = false;
+            icurrentTune = 0;
+            Tune3_Clicked(sender, e);
+            MainStack.IsVisible = true;
+            return;
+        }
         if (icurrentTune == 3)
         {
             Tune2_Clicked(sender, e);
@@ -900,13 +968,23 @@ public partial class TunePage : ContentPage
             Tune3_Clicked(sender, e);
             return;
         }
+        if (icurrentTune == 3)
+        {
+            MainStack.IsVisible = false;
+            TuneDataStack.IsVisible = true;
+            PageTitle.Text = "Tune Data";
+            
+        }
 
     }
 
-    private void OnSwipe_Right(object sender, SwipedEventArgs e)
+    private void TireSize_SelectedIndexChanged(object sender, EventArgs e)
     {
-        string s = "";
+
     }
 
+    private void DiffRatio_SelectedIndexChanged(object sender, EventArgs e)
+    {
 
+    }
 }

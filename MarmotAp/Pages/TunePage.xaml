@@ -16,338 +16,469 @@
         </HorizontalStackLayout>
     </Shell.TitleView>
 
-    <StackLayout Margin="0">
+    <ScrollView>
+        <VerticalStackLayout>
+            <StackLayout x:Name="MainStack" Margin="0">
 
-        <Grid x:Name="TuneButtonsGrid" RowDefinitions="Auto"
-        ColumnDefinitions="*,*,*,*,*"
-        RowSpacing="6"
-        HorizontalOptions="Center"
-        VerticalOptions="Start">
-            <Button x:Name="Tune1" Grid.Row="0" Grid.Column="0" Margin="8" WidthRequest="90"  Clicked="Tune1_Clicked" 
+                <Grid x:Name="TuneButtonsGrid" RowDefinitions="Auto"
+                    ColumnDefinitions="*,*,*,*,*"
+                    RowSpacing="6"
+                    HorizontalOptions="Center"
+                    VerticalOptions="Start">
+                    <Button x:Name="Tune1" Grid.Row="0" Grid.Column="0" Margin="8" WidthRequest="90"  Clicked="Tune1_Clicked" 
                     Style="{StaticResource ButtonOutline}" Text="Tune 1" />
 
-            <Button x:Name="Tune2" Grid.Row="0" Grid.Column="1" Margin="8"  WidthRequest="90" Clicked="Tune2_Clicked"
+                    <Button x:Name="Tune2" Grid.Row="0" Grid.Column="1" Margin="8"  WidthRequest="90" Clicked="Tune2_Clicked"
                     Style="{StaticResource ButtonOutline}" Text="Tune 2" />
 
-            <Button x:Name="Tune3" Grid.Row="0" Grid.Column="2" Margin="8" WidthRequest="90" Clicked="Tune3_Clicked"
+                    <Button x:Name="Tune3" Grid.Row="0" Grid.Column="2" Margin="8" WidthRequest="90" Clicked="Tune3_Clicked"
                     Style="{StaticResource ButtonOutline}" Text="Tune 3" />
 
-            <Button x:Name="Data" Grid.Row="0" Grid.Column="3" Margin="8" WidthRequest="90" Clicked="Data_Clicked"
+                    <Button x:Name="Data" Grid.Row="0" Grid.Column="3" Margin="8" WidthRequest="90" Clicked="Data_Clicked"
                     Style="{StaticResource ButtonOutline}" Text="Data" />
-            
-            <ActivityIndicator x:Name="MyActivity" IsRunning="true" IsVisible="false" />
-        </Grid>
+
+                    <ActivityIndicator x:Name="MyActivity" IsRunning="true" IsVisible="false" />
+                </Grid>
 
 
+                <SwipeView>
 
-        <charts:SfCartesianChart x:Name="MainChart" VerticalOptions="Start" HeightRequest="400" Margin="0" WidthRequest="500" HorizontalOptions="Start"
+                    <SwipeView.LeftItems>
+                        <SwipeItem IconImageSource="arrow_alt_circle_left.svg" Invoked="OnSwipeLeft" />
+                    </SwipeView.LeftItems>
+                    <SwipeView.RightItems>
+                        <SwipeItem IconImageSource="arrow_alt_circle_right.svg" Invoked="OnSwipeRight" />
+                    </SwipeView.RightItems>
+
+                    <charts:SfCartesianChart x:Name="MainChart" VerticalOptions="Start" HeightRequest="400" Margin="0" 
+                                     WidthRequest="500" HorizontalOptions="Start" IsVisible="True" 
                          
-              BackgroundColor="{AppThemeBinding 
-               Dark={StaticResource WindowBackgroundColorDark}, 
-               Light={StaticResource WindowBackgroundColor}}">
+                          BackgroundColor="{AppThemeBinding 
+                           Dark={StaticResource WindowBackgroundColorDark}, 
+                           Light={StaticResource WindowBackgroundColor}}">
 
 
-            <!--<charts:SfCartesianChart.Title>
+                        <!--<charts:SfCartesianChart.Title>
+                        <Label Text="{Binding ChartTitle}" HeightRequest="26" TextColor="{AppThemeBinding 
+                                                        Dark={StaticResource TextColorDark}, 
+                                                        Light={StaticResource TextColor}}"
+                                    FontSize="22" FontAttributes="Bold" HorizontalTextAlignment="Center">
+                        </Label>
+                        </charts:SfCartesianChart.Title>-->
 
-                <Label Text="{Binding ChartTitle}" HeightRequest="26" TextColor="{AppThemeBinding 
-                                                Dark={StaticResource TextColorDark}, 
-                                                Light={StaticResource TextColor}}"
-                            FontSize="22" FontAttributes="Bold" HorizontalTextAlignment="Center">
-                </Label>
+                        <charts:SfCartesianChart.BindingContext>
+                            <vm:TunePageViewModel/>
+                        </charts:SfCartesianChart.BindingContext>
 
-            </charts:SfCartesianChart.Title>-->
-
-            <charts:SfCartesianChart.BindingContext>
-                <vm:TunePageViewModel/>
-            </charts:SfCartesianChart.BindingContext>
-
-            <charts:SfCartesianChart.Legend>
-                <charts:ChartLegend>
-                    <charts:ChartLegend.LabelStyle>
-                        <charts:ChartLegendLabelStyle 
-                    TextColor="{AppThemeBinding 
+                        <charts:SfCartesianChart.Legend>
+                            <charts:ChartLegend>
+                                <charts:ChartLegend.LabelStyle>
+                                    <charts:ChartLegendLabelStyle 
+                                        TextColor="{AppThemeBinding 
                                         Dark={StaticResource TextColorDark}, 
                                         Light={StaticResource TextColor}}"
-                    Margin="-1" FontSize="14" FontAttributes="Bold"/>
-                    </charts:ChartLegend.LabelStyle>
-                </charts:ChartLegend>
+                                        Margin="-1" FontSize="14" FontAttributes="Bold"/>
+                                </charts:ChartLegend.LabelStyle>
+                            </charts:ChartLegend>
 
-            </charts:SfCartesianChart.Legend>
-            <charts:SfCartesianChart.ZoomPanBehavior>
-                <charts:ChartZoomPanBehavior EnablePinchZooming="True"/>
-            </charts:SfCartesianChart.ZoomPanBehavior>
+                        </charts:SfCartesianChart.Legend>
+                        <charts:SfCartesianChart.ZoomPanBehavior>
+                            <charts:ChartZoomPanBehavior EnablePinchZooming="True"/>
+                        </charts:SfCartesianChart.ZoomPanBehavior>
 
-            <charts:SfCartesianChart.XAxes>
-                <charts:NumericalAxis Minimum="0" Maximum="105" Interval="10">
-                    <charts:NumericalAxis.MajorGridLineStyle>
-                        <charts:ChartLineStyle StrokeWidth="1"></charts:ChartLineStyle>
-                    </charts:NumericalAxis.MajorGridLineStyle>
-                    <charts:NumericalAxis.Title>
-                        <charts:ChartAxisTitle FontSize="12" Text="Throttle Position" TextColor="{AppThemeBinding 
+                        <charts:SfCartesianChart.XAxes>
+                            <charts:NumericalAxis Minimum="0" Maximum="105" Interval="10">
+                                <charts:NumericalAxis.MajorGridLineStyle>
+                                    <charts:ChartLineStyle StrokeWidth="1"></charts:ChartLineStyle>
+                                </charts:NumericalAxis.MajorGridLineStyle>
+                                <charts:NumericalAxis.Title>
+                                    <charts:ChartAxisTitle FontSize="12" Text="Throttle Position" TextColor="{AppThemeBinding 
                                         Dark={StaticResource TextColorDark}, 
                                         Light={StaticResource TextColor}}"/>
-                    </charts:NumericalAxis.Title>
-                </charts:NumericalAxis>
-            </charts:SfCartesianChart.XAxes>
+                                </charts:NumericalAxis.Title>
+                            </charts:NumericalAxis>
+                        </charts:SfCartesianChart.XAxes>
 
-            <charts:SfCartesianChart.YAxes>
-                <charts:NumericalAxis Minimum="0" Maximum="120" Interval="10">
-                    <charts:NumericalAxis.MajorGridLineStyle>
-                        <charts:ChartLineStyle StrokeWidth="1"></charts:ChartLineStyle>
-                    </charts:NumericalAxis.MajorGridLineStyle>
-                    <charts:NumericalAxis.Title>
-                        <charts:ChartAxisTitle FontSize="12" Text="MPH" Margin="0"  TextColor="{AppThemeBinding 
-                    Dark={StaticResource TextColorDark}, 
-                    Light={StaticResource TextColor}}"/>
-                    </charts:NumericalAxis.Title>
-                </charts:NumericalAxis>
-            </charts:SfCartesianChart.YAxes>
+                        <charts:SfCartesianChart.YAxes>
+                            <charts:NumericalAxis Minimum="0" Maximum="120" Interval="10">
+                                <charts:NumericalAxis.MajorGridLineStyle>
+                                    <charts:ChartLineStyle StrokeWidth="1"></charts:ChartLineStyle>
+                                </charts:NumericalAxis.MajorGridLineStyle>
+                                <charts:NumericalAxis.Title>
+                                    <charts:ChartAxisTitle FontSize="12" Text="MPH" Margin="0"  TextColor="{AppThemeBinding 
+                                    Dark={StaticResource TextColorDark}, 
+                                    Light={StaticResource TextColor}}"/>
+                                </charts:NumericalAxis.Title>
+                            </charts:NumericalAxis>
+                        </charts:SfCartesianChart.YAxes>
 
 
-            <charts:SfCartesianChart.Series>
+                        <charts:SfCartesianChart.Series>
 
-                <charts:LineSeries x:Name="Unlock" Label="Unlock" ItemsSource="{Binding Unlock}" 
+                            <charts:LineSeries x:Name="Unlock" Label="Unlock" ItemsSource="{Binding Unlock}" 
                             XBindingPath="x" YBindingPath="y" ShowMarkers="True">
 
-                    <charts:LineSeries.MarkerSettings>
-                        <charts:ChartMarkerSettings Type="Hexagon"
+                                <charts:LineSeries.MarkerSettings>
+                                    <charts:ChartMarkerSettings Type="Hexagon"
                                StrokeWidth="1"
                                Height="15"
                                Width="15"/>
-                    </charts:LineSeries.MarkerSettings>
-                    <charts:LineSeries.SelectionBehavior>
-                        <charts:DataPointSelectionBehavior SelectionChanged="Chart_SelectionChanged"  />
-                    </charts:LineSeries.SelectionBehavior>
-                </charts:LineSeries>
+                                </charts:LineSeries.MarkerSettings>
+                                <charts:LineSeries.SelectionBehavior>
+                                    <charts:DataPointSelectionBehavior SelectionChanged="Chart_SelectionChanged"  />
+                                </charts:LineSeries.SelectionBehavior>
+                            </charts:LineSeries>
 
-                <charts:LineSeries x:Name="Lockup" Label="Lockup" ItemsSource="{Binding Lockup}" 
-                         XBindingPath="x" YBindingPath="y" ShowMarkers="True">
-                    <charts:LineSeries.MarkerSettings>
-                        <charts:ChartMarkerSettings Type="Hexagon"
+                            <charts:LineSeries x:Name="Lockup" Label="Lockup" ItemsSource="{Binding Lockup}" 
+                            XBindingPath="x" YBindingPath="y" ShowMarkers="True">
+                                <charts:LineSeries.MarkerSettings>
+                                    <charts:ChartMarkerSettings Type="Hexagon"
                                StrokeWidth="1"
                                Height="15"
                                Width="15"/>
-                    </charts:LineSeries.MarkerSettings>
-                    <charts:LineSeries.SelectionBehavior>
-                        <charts:DataPointSelectionBehavior SelectionChanged="Chart_SelectionChanged"  />
-                    </charts:LineSeries.SelectionBehavior>
-                </charts:LineSeries>
+                                </charts:LineSeries.MarkerSettings>
+                                <charts:LineSeries.SelectionBehavior>
+                                    <charts:DataPointSelectionBehavior SelectionChanged="Chart_SelectionChanged"  />
+                                </charts:LineSeries.SelectionBehavior>
+                            </charts:LineSeries>
 
-                <charts:LineSeries x:Name="ODon" Label="ODon" EnableTooltip="False" ItemsSource="{Binding ODon}"
-                        XBindingPath="x" YBindingPath="y" ShowMarkers="True" >
-                    <charts:LineSeries.MarkerSettings>
-                        <charts:ChartMarkerSettings Type="Hexagon"
+                            <charts:LineSeries x:Name="ODon" Label="ODon" EnableTooltip="False" ItemsSource="{Binding ODon}"
+                            XBindingPath="x" YBindingPath="y" ShowMarkers="True" >
+                                <charts:LineSeries.MarkerSettings>
+                                    <charts:ChartMarkerSettings Type="Hexagon"
                                StrokeWidth="1"
                                Height="15"
                                Width="15"/>
-                    </charts:LineSeries.MarkerSettings>
-                    <charts:LineSeries.SelectionBehavior>
-                        <charts:DataPointSelectionBehavior SelectionChanged="Chart_SelectionChanged"  />
-                    </charts:LineSeries.SelectionBehavior>
-                </charts:LineSeries>
+                                </charts:LineSeries.MarkerSettings>
+                                <charts:LineSeries.SelectionBehavior>
+                                    <charts:DataPointSelectionBehavior SelectionChanged="Chart_SelectionChanged"  />
+                                </charts:LineSeries.SelectionBehavior>
+                            </charts:LineSeries>
 
-                <charts:LineSeries x:Name="ODoff" ItemsSource="{Binding ODoff}" EnableTooltip="False" 
-                     TooltipTemplate="{StaticResource tooltipTemplate}" 
-                     XBindingPath="x" YBindingPath="y" Label="ODoff" ShowMarkers="True">
-                    <charts:LineSeries.MarkerSettings>
-                        <charts:ChartMarkerSettings Type="Hexagon"
+                            <charts:LineSeries x:Name="ODoff" ItemsSource="{Binding ODoff}" EnableTooltip="False" 
+                            XBindingPath="x" YBindingPath="y" Label="ODoff" ShowMarkers="True">
+                                <charts:LineSeries.MarkerSettings>
+                                    <charts:ChartMarkerSettings Type="Hexagon"
                                StrokeWidth="1"
                                Height="15"
                                Width="15"/>
-                    </charts:LineSeries.MarkerSettings>
-                    <charts:LineSeries.SelectionBehavior>
-                        <charts:DataPointSelectionBehavior SelectionChanged="Chart_SelectionChanged"  />
-                    </charts:LineSeries.SelectionBehavior>
-                </charts:LineSeries>
+                                </charts:LineSeries.MarkerSettings>
+                                <charts:LineSeries.SelectionBehavior>
+                                    <charts:DataPointSelectionBehavior SelectionChanged="Chart_SelectionChanged"  />
+                                </charts:LineSeries.SelectionBehavior>
+                            </charts:LineSeries>
 
-                <charts:LineSeries x:Name="Shift_12" Label="1-2" ItemsSource="{Binding Shift_12}" EnableTooltip="False" 
-                     TooltipTemplate="{StaticResource tooltipTemplate}" 
-                     XBindingPath="x" YBindingPath="y" ShowMarkers="True">
-                    <charts:LineSeries.MarkerSettings>
-                        <charts:ChartMarkerSettings Type="Hexagon"
+                            <charts:LineSeries x:Name="Shift_12" Label="1-2" ItemsSource="{Binding Shift_12}" EnableTooltip="False" 
+                            XBindingPath="x" YBindingPath="y" ShowMarkers="True">
+                                <charts:LineSeries.MarkerSettings>
+                                    <charts:ChartMarkerSettings Type="Hexagon"
                                StrokeWidth="1"
                                Height="15"
                                Width="15"/>
-                    </charts:LineSeries.MarkerSettings>
-                    <charts:LineSeries.SelectionBehavior>
-                        <charts:DataPointSelectionBehavior SelectionChanged="Chart_SelectionChanged"  />
-                    </charts:LineSeries.SelectionBehavior>
-                </charts:LineSeries>
+                                </charts:LineSeries.MarkerSettings>
+                                <charts:LineSeries.SelectionBehavior>
+                                    <charts:DataPointSelectionBehavior SelectionChanged="Chart_SelectionChanged"  />
+                                </charts:LineSeries.SelectionBehavior>
+                            </charts:LineSeries>
 
-                <charts:LineSeries x:Name="Shift_23" Label="2-3" ItemsSource="{Binding Shift_23}" EnableTooltip="False" 
-                     TooltipTemplate="{StaticResource tooltipTemplate}" 
-                     XBindingPath="x" YBindingPath="y" ShowMarkers="True">
-                    <charts:LineSeries.MarkerSettings>
-                        <charts:ChartMarkerSettings Type="Hexagon"
+                            <charts:LineSeries x:Name="Shift_23" Label="2-3" ItemsSource="{Binding Shift_23}" EnableTooltip="False" 
+                            XBindingPath="x" YBindingPath="y" ShowMarkers="True">
+                                <charts:LineSeries.MarkerSettings>
+                                    <charts:ChartMarkerSettings Type="Hexagon"
                
                                StrokeWidth="1"
                                Height="15"
                                Width="15"/>
-                    </charts:LineSeries.MarkerSettings>
-                    <charts:LineSeries.SelectionBehavior>
-                        <charts:DataPointSelectionBehavior SelectionChanged="Chart_SelectionChanged"  />
-                    </charts:LineSeries.SelectionBehavior>
-                </charts:LineSeries>
+                                </charts:LineSeries.MarkerSettings>
+                                <charts:LineSeries.SelectionBehavior>
+                                    <charts:DataPointSelectionBehavior SelectionChanged="Chart_SelectionChanged"  />
+                                </charts:LineSeries.SelectionBehavior>
+                            </charts:LineSeries>
 
-                <charts:LineSeries x:Name="Shift_21" Label="2-1" ItemsSource="{Binding Shift_21}" EnableTooltip="False" 
-                     TooltipTemplate="{StaticResource tooltipTemplate}" 
-                     XBindingPath="x" YBindingPath="y" ShowMarkers="True">
-                    <charts:LineSeries.MarkerSettings>
-                        <charts:ChartMarkerSettings Type="Hexagon"
+                            <charts:LineSeries x:Name="Shift_21" Label="2-1" ItemsSource="{Binding Shift_21}" EnableTooltip="False" 
+                            XBindingPath="x" YBindingPath="y" ShowMarkers="True">
+                                <charts:LineSeries.MarkerSettings>
+                                    <charts:ChartMarkerSettings Type="Hexagon"
                
                                StrokeWidth="1"
                                Height="15"
                                Width="15"/>
-                    </charts:LineSeries.MarkerSettings>
-                    <charts:LineSeries.SelectionBehavior>
-                        <charts:DataPointSelectionBehavior SelectionChanged="Chart_SelectionChanged"  />
-                    </charts:LineSeries.SelectionBehavior>
-                </charts:LineSeries>
+                                </charts:LineSeries.MarkerSettings>
+                                <charts:LineSeries.SelectionBehavior>
+                                    <charts:DataPointSelectionBehavior SelectionChanged="Chart_SelectionChanged"  />
+                                </charts:LineSeries.SelectionBehavior>
+                            </charts:LineSeries>
 
-                <charts:LineSeries x:Name="Shift_32" Label="3-2" ItemsSource="{Binding Shift_32}" EnableTooltip="False" 
-                     TooltipTemplate="{StaticResource tooltipTemplate}" 
-                     XBindingPath="x" YBindingPath="y" ShowMarkers="True">
-                    <charts:LineSeries.MarkerSettings>
-                        <charts:ChartMarkerSettings Type="Hexagon"
+                            <charts:LineSeries x:Name="Shift_32" Label="3-2" ItemsSource="{Binding Shift_32}" EnableTooltip="False" 
+                            XBindingPath="x" YBindingPath="y" ShowMarkers="True">
+                                <charts:LineSeries.MarkerSettings>
+                                    <charts:ChartMarkerSettings Type="Hexagon"
                                StrokeWidth="1"
                                Height="15"
                                Width="15"/>
-                    </charts:LineSeries.MarkerSettings>
-                    <charts:LineSeries.SelectionBehavior>
-                        <charts:DataPointSelectionBehavior SelectionChanged="Chart_SelectionChanged"  />
-                    </charts:LineSeries.SelectionBehavior>
-                </charts:LineSeries>
+                                </charts:LineSeries.MarkerSettings>
+                                <charts:LineSeries.SelectionBehavior>
+                                    <charts:DataPointSelectionBehavior SelectionChanged="Chart_SelectionChanged"  />
+                                </charts:LineSeries.SelectionBehavior>
+                            </charts:LineSeries>
 
-            </charts:SfCartesianChart.Series>
+                        </charts:SfCartesianChart.Series>
 
-            </charts:SfCartesianChart>
-        
-        <Grid RowDefinitions="Auto,Auto,Auto,Auto"
+                    </charts:SfCartesianChart>
+
+                </SwipeView>
+
+
+
+                <Grid RowDefinitions="Auto,Auto,Auto,Auto"
             ColumnDefinitions="*,*,*,*,*,*,*,*,*"
             RowSpacing="10"
             HorizontalOptions="Fill"
             VerticalOptions="Start">
-            <Button x:Name="btnUnlock" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Clicked="Unlock_Clicked" Style="{StaticResource ButtonOutline}" Text="Unlock" 
+                    <Button x:Name="btnUnlock" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Clicked="Unlock_Clicked" Style="{StaticResource ButtonOutline}" Text="Unlock" 
                                         TextColor="{AppThemeBinding 
                                         Dark={StaticResource TextColorDark}, 
                                         Light={StaticResource TextColor}}" />
-            <Label x:Name="lblUnlock" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2" Text=""   TextColor="{AppThemeBinding 
+                    <Label x:Name="lblUnlock" Grid.Row="0" Grid.Column="3" Grid.ColumnSpan="2" Text=""   TextColor="{AppThemeBinding 
                                         Dark={StaticResource TextColorDark}, 
                                         Light={StaticResource TextColor}}" VerticalOptions="Center" />
-            <Button x:Name="btnLockup" Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="2" Clicked="Lockup_Clicked" Style="{StaticResource ButtonOutline}" 
+                    <Button x:Name="btnLockup" Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="2" Clicked="Lockup_Clicked" Style="{StaticResource ButtonOutline}" 
                     Text="Lockup" TextColor="{AppThemeBinding 
                                         Dark={StaticResource TextColorDark}, 
                                         Light={StaticResource TextColor}}" />
-            <Label x:Name="lblLockup" Grid.Row="0" Grid.Column="7" Grid.ColumnSpan="2"  Text="" TextColor="{AppThemeBinding 
+                    <Label x:Name="lblLockup" Grid.Row="0" Grid.Column="7" Grid.ColumnSpan="2"  Text="" TextColor="{AppThemeBinding 
                                         Dark={StaticResource TextColorDark}, 
                                         Light={StaticResource TextColor}}" VerticalOptions="Center" />
 
-            <Button x:Name="btnODoff" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Clicked="ODoff_Clicked" Style="{StaticResource ButtonOutline}" 
+                    <Button x:Name="btnODoff" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Clicked="ODoff_Clicked" Style="{StaticResource ButtonOutline}" 
                     Text="ODoff" TextColor="{AppThemeBinding 
                                         Dark={StaticResource TextColorDark}, 
                                         Light={StaticResource TextColor}}" />
-            <Label x:Name="lblODoff" Grid.Row="1" Grid.Column="3"  Grid.ColumnSpan="2"  Text="" TextColor="{AppThemeBinding 
+                    <Label x:Name="lblODoff" Grid.Row="1" Grid.Column="3"  Grid.ColumnSpan="2"  Text="" TextColor="{AppThemeBinding 
                                         Dark={StaticResource TextColorDark}, 
                                         Light={StaticResource TextColor}}" VerticalOptions="Center" />
 
-            <Button x:Name="btnODon" Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="2" Clicked="ODon_Clicked" Style="{StaticResource ButtonOutline}" 
+                    <Button x:Name="btnODon" Grid.Row="1" Grid.Column="5" Grid.ColumnSpan="2" Clicked="ODon_Clicked" Style="{StaticResource ButtonOutline}" 
                     Text="ODon" TextColor="{AppThemeBinding 
                                         Dark={StaticResource TextColorDark}, 
                                         Light={StaticResource TextColor}}" />
-            <Label x:Name="lblODon" Grid.Row="1" Grid.Column="7"  Grid.ColumnSpan="2"  Text="" TextColor="{AppThemeBinding 
+                    <Label x:Name="lblODon" Grid.Row="1" Grid.Column="7"  Grid.ColumnSpan="2"  Text="" TextColor="{AppThemeBinding 
                                         Dark={StaticResource TextColorDark}, 
                                         Light={StaticResource TextColor}}" VerticalOptions="Center" />
 
-            <Button x:Name="btnShift_12" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Clicked="Shift_12_Clicked" Style="{StaticResource ButtonOutline}" 
+                    <Button x:Name="btnShift_12" Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Clicked="Shift_12_Clicked" Style="{StaticResource ButtonOutline}" 
                     Text="Shift_12" TextColor="{AppThemeBinding 
                                         Dark={StaticResource TextColorDark}, 
                                         Light={StaticResource TextColor}}" />
-            <Label x:Name="lblShift_12" Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2"   Text="" TextColor="{AppThemeBinding 
+                    <Label x:Name="lblShift_12" Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2"   Text="" TextColor="{AppThemeBinding 
                                         Dark={StaticResource TextColorDark}, 
                                         Light={StaticResource TextColor}}" VerticalOptions="Center" />
 
-            <Button x:Name="btnShift_23" Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="2" Clicked="Shift_23_Clicked" Style="{StaticResource ButtonOutline}" 
+                    <Button x:Name="btnShift_23" Grid.Row="2" Grid.Column="5" Grid.ColumnSpan="2" Clicked="Shift_23_Clicked" Style="{StaticResource ButtonOutline}" 
                     Text="Shift_23" TextColor="{AppThemeBinding 
                                         Dark={StaticResource TextColorDark}, 
                                         Light={StaticResource TextColor}}" />
-            <Label x:Name="lblShift_23" Grid.Row="2" Grid.Column="7" Grid.ColumnSpan="2"   Text="" TextColor="{AppThemeBinding 
+                    <Label x:Name="lblShift_23" Grid.Row="2" Grid.Column="7" Grid.ColumnSpan="2"   Text="" TextColor="{AppThemeBinding 
                                         Dark={StaticResource TextColorDark}, 
                                         Light={StaticResource TextColor}}" VerticalOptions="Center" />
 
-            <Button x:Name="btnShift_21" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Clicked="Shift_21_Clicked" Style="{StaticResource ButtonOutline}" 
+                    <Button x:Name="btnShift_21" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Clicked="Shift_21_Clicked" Style="{StaticResource ButtonOutline}" 
                     Text="Shift_21" TextColor="{AppThemeBinding 
                                         Dark={StaticResource TextColorDark}, 
                                         Light={StaticResource TextColor}}" />
-            <Label x:Name="lblShift_21" Grid.Row="3" Grid.Column="3"  Grid.ColumnSpan="2"  Text="" TextColor="{AppThemeBinding 
+                    <Label x:Name="lblShift_21" Grid.Row="3" Grid.Column="3"  Grid.ColumnSpan="2"  Text="" TextColor="{AppThemeBinding 
                                         Dark={StaticResource TextColorDark}, 
                                         Light={StaticResource TextColor}}" VerticalOptions="Center" />
 
-            <Button x:Name="btnShift_32" Grid.Row="3" Grid.Column="5" Grid.ColumnSpan="2" Clicked="Shift_32_Clicked" Style="{StaticResource ButtonOutline}" 
+                    <Button x:Name="btnShift_32" Grid.Row="3" Grid.Column="5" Grid.ColumnSpan="2" Clicked="Shift_32_Clicked" Style="{StaticResource ButtonOutline}" 
                     Text="Shift_32" TextColor="{AppThemeBinding 
                                         Dark={StaticResource TextColorDark}, 
                                         Light={StaticResource TextColor}}" />
-            <Label x:Name="lblShift_32" Grid.Row="3" Grid.Column="7"  Grid.ColumnSpan="2"  Text="" TextColor="{AppThemeBinding 
+                    <Label x:Name="lblShift_32" Grid.Row="3" Grid.Column="7"  Grid.ColumnSpan="2"  Text="" TextColor="{AppThemeBinding 
                                         Dark={StaticResource TextColorDark}, 
                                         Light={StaticResource TextColor}}" VerticalOptions="Center" />
 
-        </Grid>
-        <StackLayout>
-            <Grid ColumnSpacing="4" HorizontalOptions="Center" ColumnDefinitions="*,*,*,*,*">
+                </Grid>
 
-                <CheckBox x:Name="LiveUpdate"  Grid.Row="0" Grid.Column="0" Margin="0" HorizontalOptions="End"  Color="{AppThemeBinding 
+
+                <Grid ColumnSpacing="4" HorizontalOptions="Center" ColumnDefinitions="*,*,*,*,*">
+
+                    <CheckBox x:Name="LiveUpdate"  Grid.Row="0" Grid.Column="0" Margin="0" HorizontalOptions="End"  Color="{AppThemeBinding 
                                       Dark={StaticResource TextColorDark}, 
                                       Light={StaticResource TextColor}}" />
-                <Label Grid.Row="0" Grid.Column="1" Text="Live Update" FontSize="18" TextColor="{AppThemeBinding 
+                    <Label Grid.Row="0" Grid.Column="1" Text="Live Update" FontSize="18" TextColor="{AppThemeBinding 
                                       Dark={StaticResource TextColorDark}, 
                                       Light={StaticResource TextColor}}" VerticalOptions="Center"/>
 
-                <Label Grid.Column="2"  Grid.Row="0" Text="Change by:" FontSize="20" TextColor="{AppThemeBinding 
+                    <Label Grid.Column="2"  Grid.Row="0" Text="Change by:" FontSize="20" TextColor="{AppThemeBinding 
                   Dark={StaticResource TextColorDark}, 
                   Light={StaticResource TextColor}}" VerticalOptions="Center" HorizontalOptions="Start" />
 
-                <Picker x:Name="AddVal" Grid.Column="3" Grid.Row="0" FontSize="20" SelectedIndexChanged="AddVal_SelectedIndexChanged" 
+                    <Picker x:Name="AddVal" Grid.Column="3" Grid.Row="0" FontSize="20" SelectedIndexChanged="AddVal_SelectedIndexChanged" 
                     TextColor="{AppThemeBinding
                     Dark={StaticResource TextColorDark},
                     Light={StaticResource TextColor}}" />
 
-            </Grid>
-        </StackLayout>
+                </Grid>
 
 
-        <StackLayout>
-            <Grid RowDefinitions="Auto"
+
+                <Grid RowDefinitions="Auto"
                 ColumnDefinitions="*,*,*"
                 ColumnSpacing="10"
                 RowSpacing="0"
                 HorizontalOptions="Fill"
                 VerticalOptions="Start">
-                <Button x:Name="Exit" Grid.Row="0" Grid.Column="0" Text="Exit" Clicked="Exit_Clicked" Style="{StaticResource ButtonOutline}" 
+                    <Button x:Name="Exit" Grid.Row="0" Grid.Column="0" Text="Exit" Clicked="Exit_Clicked" Style="{StaticResource ButtonOutline}" 
                 TextColor="{AppThemeBinding 
                     Dark={StaticResource TextColorDark}, 
                     Light={StaticResource TextColor}}" />
 
-                <Button x:Name="SaveFile" Grid.Row="0" Grid.Column="1" Text="Save File" Clicked="SaveFile_Clicked" Style="{StaticResource ButtonOutline}" 
+                    <Button x:Name="SaveFile" Grid.Row="0" Grid.Column="1" Text="Save File" Clicked="SaveFile_Clicked" Style="{StaticResource ButtonOutline}" 
                 TextColor="{AppThemeBinding 
                     Dark={StaticResource TextColorDark}, 
                     Light={StaticResource TextColor}}" />
 
-                <Button x:Name="LoadFile" Grid.Row="0" Grid.Column="2" Text="Load File" Clicked="LoadFile_Clicked" Style="{StaticResource ButtonOutline}" 
+                    <Button x:Name="LoadFile" Grid.Row="0" Grid.Column="2" Text="Load File" Clicked="LoadFile_Clicked" Style="{StaticResource ButtonOutline}" 
                 TextColor="{AppThemeBinding 
                     Dark={StaticResource TextColorDark}, 
                     Light={StaticResource TextColor}}" />
 
-                <Picker x:Name="FileList" Grid.Column="2" IsVisible="false" FontSize="20" 
+                    <Picker x:Name="FileList" Grid.Column="2" IsVisible="false" FontSize="20" 
                 SelectedIndexChanged="Filelist_SelectedIndexChanged" Unfocused="FileList_Unfocused" 
                 TextColor="{AppThemeBinding
                     Dark={StaticResource TextColorDark},
                     Light={StaticResource TextColor}}" />
 
-            </Grid>
+                </Grid>
 
-        </StackLayout>
+            </StackLayout>
+
+            <StackLayout x:Name="TuneDataStack" IsVisible="false" >
+
+                <SwipeView>
+
+                    <SwipeView.LeftItems>
+                        <SwipeItem IconImageSource="arrow_alt_circle_left.svg" Invoked="OnSwipeLeft" />
+                    </SwipeView.LeftItems>
+                    <SwipeView.RightItems>
+                        <SwipeItem IconImageSource="arrow_alt_circle_right.svg" Invoked="OnSwipeRight" />
+                    </SwipeView.RightItems>
+                    
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="60" />
+                            <RowDefinition Height="60" />
+                            <RowDefinition Height="60" />
+                            <RowDefinition Height="60" />
+                            <RowDefinition Height="60" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition Width="80" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Column="1" Grid.Row="0" Text="Anti-hunt MPH:" FontSize="14" TextColor="{AppThemeBinding 
+                            Dark={StaticResource TextColorDark}, 
+                            Light={StaticResource TextColor}}" VerticalOptions="Center" HorizontalOptions="End" />
+
+                        <Entry x:Name="AntiHunt" Grid.Column="2" Grid.Row="0" FontSize="18" WidthRequest="50" 
+                            HorizontalOptions="Start" Keyboard="Numeric" 
+                            TextColor="{AppThemeBinding 
+                            Dark={StaticResource TextColorDark}, 
+                            Light={StaticResource TextColor}}" />
+                        
+                        <Label Grid.Column="3" Grid.Row="0" Text="Govenor PSI Modifier:" FontSize="14" TextColor="{AppThemeBinding 
+                              Dark={StaticResource TextColorDark}, 
+                              Light={StaticResource TextColor}}" VerticalOptions="Center" HorizontalOptions="End" />
+
+                        <Entry x:Name="Pressure12" Grid.Column="4" Grid.Row="0" FontSize="18" WidthRequest="50" 
+                            HorizontalOptions="Start" Keyboard="Numeric"  
+                            TextColor="{AppThemeBinding 
+                              Dark={StaticResource TextColorDark}, 
+                              Light={StaticResource TextColor}}" />
+
+
+                        <Label Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="1" FontSize="14" Text="Tire Size:" 
+                           TextColor="{AppThemeBinding 
+                          Dark={StaticResource TextColorDark}, 
+                          Light={StaticResource TextColor}}" VerticalOptions="Center" HorizontalOptions="End" />
+
+                        <Picker Title="Tire Size" x:Name="TireSize" Grid.Column="2" Grid.Row="1" SelectedIndexChanged="TireSize_SelectedIndexChanged" 
+                            TextColor="{AppThemeBinding
+                            Dark={StaticResource TextColorDark},
+                            Light={StaticResource TextColor}}" />
+
+                        <Label Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="1" FontSize="14" Text="Aux Min Voltage:" TextColor="{AppThemeBinding 
+                          Dark={StaticResource TextColorDark}, 
+                          Light={StaticResource TextColor}}" VerticalOptions="Center" HorizontalOptions="End" />
+
+                        <Entry x:Name="AuxMin" Grid.Column="4" Grid.Row="1" FontSize="18" WidthRequest="50" 
+                           HorizontalOptions="Start" Keyboard="Numeric" 
+                           TextColor="{AppThemeBinding 
+                          Dark={StaticResource TextColorDark}, 
+                          Light={StaticResource TextColor}}" />
+
+                        <Label Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="1" FontSize="14" Text="Diff Ratio:" TextColor="{AppThemeBinding 
+                          Dark={StaticResource TextColorDark}, 
+                          Light={StaticResource TextColor}}" VerticalOptions="Center" HorizontalOptions="End" />
+
+                        <Picker Title="Diff Ratio" x:Name="DiffRatio" Grid.Column="2" Grid.Row="2" FontSize="18" WidthRequest="50" SelectedIndexChanged="DiffRatio_SelectedIndexChanged" 
+                            TextColor="{AppThemeBinding
+                            Dark={StaticResource TextColorDark},
+                            Light={StaticResource TextColor}}" />
+
+                        <Label Grid.Column="3" Grid.Row="2" Grid.ColumnSpan="1" FontSize="14" Text="Aux Max Voltage:" TextColor="{AppThemeBinding 
+                           Dark={StaticResource TextColorDark}, 
+                           Light={StaticResource TextColor}}" VerticalOptions="Center" HorizontalOptions="End" />
+
+                        <Entry x:Name="AuxMax" Grid.Column="4" Grid.Row="2" FontSize="18" WidthRequest="50" 
+                             HorizontalOptions="Start" Keyboard="Numeric"  
+                             TextColor="{AppThemeBinding 
+                                Dark={StaticResource TextColorDark}, 
+                                Light={StaticResource TextColor}}" />
 
 
 
-    </StackLayout>
+                        <Label Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="1" FontSize="14" Text="TPS Min Voltage:" TextColor="{AppThemeBinding 
+                           Dark={StaticResource TextColorDark}, 
+                           Light={StaticResource TextColor}}" VerticalOptions="Center" HorizontalOptions="End" />
 
+                        <Entry x:Name="TpsMin" Grid.Column="4" Grid.Row="3" FontSize="18" WidthRequest="50" 
+                         HorizontalOptions="Start" Keyboard="Numeric"  
+                         TextColor="{AppThemeBinding 
+                            Dark={StaticResource TextColorDark}, 
+                            Light={StaticResource TextColor}}" >
+
+                        </Entry>
+
+                        <Label Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="1" FontSize="14" Text="Build Number:" TextColor="{AppThemeBinding 
+                          Dark={StaticResource TextColorDark}, 
+                          Light={StaticResource TextColor}}" VerticalOptions="Center" HorizontalOptions="End" />
+
+                        <Entry x:Name="BuildNum" Grid.Column="2" Grid.Row="4" FontSize="18" WidthRequest="50" HorizontalOptions="Start" 
+                            IsReadOnly="True" 
+                           TextColor="{AppThemeBinding 
+                            Dark={StaticResource TextColorDark}, 
+                            Light={StaticResource TextColor}}" />
+
+                        <Label Grid.Column="3" Grid.Row="4" Grid.ColumnSpan="1" FontSize="14" Text="TPS Max Voltage:" TextColor="{AppThemeBinding 
+                          Dark={StaticResource TextColorDark}, 
+                          Light={StaticResource TextColor}}" VerticalOptions="Center" HorizontalOptions="End" />
+
+                        <Entry x:Name="TpsMax" Grid.Column="4" Grid.Row="4" FontSize="18" WidthRequest="50" 
+                            HorizontalOptions="Start" Keyboard="Numeric" 
+                            TextColor="{AppThemeBinding 
+                                Dark={StaticResource TextColorDark}, 
+                                Light={StaticResource TextColor}}" >
+
+                        </Entry>
+                    </Grid>
+                </SwipeView>
+            </StackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
