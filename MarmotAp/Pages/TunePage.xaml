@@ -34,7 +34,7 @@
                     <Button x:Name="Tune3" Grid.Row="0" Grid.Column="2" Margin="8" WidthRequest="90" Clicked="Tune3_Clicked"
                     Style="{StaticResource ButtonOutline}" Text="Tune 3" />
 
-                    <Button x:Name="Data" Grid.Row="0" Grid.Column="3" Margin="8" WidthRequest="90" Clicked="Data_Clicked"
+                    <Button x:Name="Data" Grid.Row="0" Grid.Column="3" Margin="8" WidthRequest="90" Clicked="TuneData_Clicked"
                     Style="{StaticResource ButtonOutline}" Text="Data" />
 
                     <ActivityIndicator x:Name="MyActivity" IsRunning="true" IsVisible="false" />
@@ -356,6 +356,13 @@
 
             <StackLayout x:Name="TuneDataStack" IsVisible="false" >
 
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="100"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                    </Grid.ColumnDefinitions>
+                </Grid>
                 <SwipeView>
 
                     <SwipeView.LeftItems>
@@ -364,112 +371,99 @@
                     <SwipeView.RightItems>
                         <SwipeItem IconImageSource="arrow_alt_circle_right.svg" Invoked="OnSwipeRight" />
                     </SwipeView.RightItems>
-                    
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="60" />
-                            <RowDefinition Height="60" />
-                            <RowDefinition Height="60" />
-                            <RowDefinition Height="60" />
-                            <RowDefinition Height="60" />
-                        </Grid.RowDefinitions>
 
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="80" />
-                            <ColumnDefinition Width="80" />
-                            <ColumnDefinition Width="80" />
-                            <ColumnDefinition Width="80" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Label Grid.Column="1" Grid.Row="0" Text="Anti-hunt MPH:" FontSize="14" TextColor="{AppThemeBinding 
+
+                    <Grid x:Name="TuneDataGrid" RowDefinitions="Auto,Auto,Auto,Auto,Auto" 
+                        ColumnDefinitions="30,*,*,*,*,*,*,*" 
+                        RowSpacing="20"
+                        HorizontalOptions="Start"
+                        VerticalOptions="Start">
+                    
+                        <Label Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" Text="Anti-hunt MPH:" FontSize="18" TextColor="{AppThemeBinding 
                             Dark={StaticResource TextColorDark}, 
                             Light={StaticResource TextColor}}" VerticalOptions="Center" HorizontalOptions="End" />
 
-                        <Entry x:Name="AntiHunt" Grid.Column="2" Grid.Row="0" FontSize="18" WidthRequest="50" 
+                        <Entry x:Name="AntiHunt" Grid.Column="3" Grid.Row="0" FontSize="18" WidthRequest="50" 
                             HorizontalOptions="Start" Keyboard="Numeric" 
                             TextColor="{AppThemeBinding 
                             Dark={StaticResource TextColorDark}, 
                             Light={StaticResource TextColor}}" />
                         
-                        <Label Grid.Column="3" Grid.Row="0" Text="Govenor PSI Modifier:" FontSize="14" TextColor="{AppThemeBinding 
+                        <Label Grid.Column="4" Grid.Row="0" Grid.ColumnSpan="3" Text="Govenor PSI Modifier:" FontSize="18" TextColor="{AppThemeBinding 
                               Dark={StaticResource TextColorDark}, 
                               Light={StaticResource TextColor}}" VerticalOptions="Center" HorizontalOptions="End" />
 
-                        <Entry x:Name="Pressure12" Grid.Column="4" Grid.Row="0" FontSize="18" WidthRequest="50" 
+                        <Entry x:Name="Pressure12" Grid.Column="7" Grid.Row="0" FontSize="18" WidthRequest="50" 
                             HorizontalOptions="Start" Keyboard="Numeric"  
                             TextColor="{AppThemeBinding 
                               Dark={StaticResource TextColorDark}, 
                               Light={StaticResource TextColor}}" />
 
-
-                        <Label Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="1" FontSize="14" Text="Tire Size:" 
+                        <Label Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" FontSize="18" Text="Tire Size:" 
                            TextColor="{AppThemeBinding 
                           Dark={StaticResource TextColorDark}, 
                           Light={StaticResource TextColor}}" VerticalOptions="Center" HorizontalOptions="End" />
 
-                        <Picker Title="Tire Size" x:Name="TireSize" Grid.Column="2" Grid.Row="1" SelectedIndexChanged="TireSize_SelectedIndexChanged" 
+                        <Picker Title="Tire Size" x:Name="TireSize" Grid.Column="3" Grid.Row="1" FontSize="18" WidthRequest="50"
+                                SelectedIndexChanged="TireSize_SelectedIndexChanged" 
                             TextColor="{AppThemeBinding
                             Dark={StaticResource TextColorDark},
                             Light={StaticResource TextColor}}" />
 
-                        <Label Grid.Column="3" Grid.Row="1" Grid.ColumnSpan="1" FontSize="14" Text="Aux Min Voltage:" TextColor="{AppThemeBinding 
+                        <Label Grid.Column="4" Grid.Row="1" Grid.ColumnSpan="3" FontSize="18" Text="Aux Min Voltage:" TextColor="{AppThemeBinding 
                           Dark={StaticResource TextColorDark}, 
                           Light={StaticResource TextColor}}" VerticalOptions="Center" HorizontalOptions="End" />
 
-                        <Entry x:Name="AuxMin" Grid.Column="4" Grid.Row="1" FontSize="18" WidthRequest="50" 
+                        <Entry x:Name="AuxMin" Grid.Column="7" Grid.Row="1" FontSize="18" WidthRequest="50" 
                            HorizontalOptions="Start" Keyboard="Numeric" 
                            TextColor="{AppThemeBinding 
                           Dark={StaticResource TextColorDark}, 
                           Light={StaticResource TextColor}}" />
 
-                        <Label Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="1" FontSize="14" Text="Diff Ratio:" TextColor="{AppThemeBinding 
+                        <Label Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" FontSize="18" Text="Diff Ratio:" TextColor="{AppThemeBinding 
                           Dark={StaticResource TextColorDark}, 
                           Light={StaticResource TextColor}}" VerticalOptions="Center" HorizontalOptions="End" />
 
-                        <Picker Title="Diff Ratio" x:Name="DiffRatio" Grid.Column="2" Grid.Row="2" FontSize="18" WidthRequest="50" SelectedIndexChanged="DiffRatio_SelectedIndexChanged" 
+                        <Picker Title="Diff Ratio" x:Name="DiffRatio" Grid.Column="3" Grid.Row="2" FontSize="18" WidthRequest="50" SelectedIndexChanged="DiffRatio_SelectedIndexChanged" 
                             TextColor="{AppThemeBinding
                             Dark={StaticResource TextColorDark},
                             Light={StaticResource TextColor}}" />
 
-                        <Label Grid.Column="3" Grid.Row="2" Grid.ColumnSpan="1" FontSize="14" Text="Aux Max Voltage:" TextColor="{AppThemeBinding 
+                        <Label Grid.Column="4" Grid.Row="2" Grid.ColumnSpan="3" FontSize="18" Text="Aux Max Voltage:" TextColor="{AppThemeBinding 
                            Dark={StaticResource TextColorDark}, 
                            Light={StaticResource TextColor}}" VerticalOptions="Center" HorizontalOptions="End" />
 
-                        <Entry x:Name="AuxMax" Grid.Column="4" Grid.Row="2" FontSize="18" WidthRequest="50" 
+                        <Entry x:Name="AuxMax" Grid.Column="7" Grid.Row="2" FontSize="18" WidthRequest="50" 
                              HorizontalOptions="Start" Keyboard="Numeric"  
                              TextColor="{AppThemeBinding 
                                 Dark={StaticResource TextColorDark}, 
                                 Light={StaticResource TextColor}}" />
 
-
-
-                        <Label Grid.Column="3" Grid.Row="3" Grid.ColumnSpan="1" FontSize="14" Text="TPS Min Voltage:" TextColor="{AppThemeBinding 
+                        <Label Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" FontSize="18" Text="TPS Min Voltage:" TextColor="{AppThemeBinding 
                            Dark={StaticResource TextColorDark}, 
                            Light={StaticResource TextColor}}" VerticalOptions="Center" HorizontalOptions="End" />
 
-                        <Entry x:Name="TpsMin" Grid.Column="4" Grid.Row="3" FontSize="18" WidthRequest="50" 
+                        <Entry x:Name="TpsMin" Grid.Column="3" Grid.Row="3" FontSize="18" WidthRequest="50" 
                          HorizontalOptions="Start" Keyboard="Numeric"  
                          TextColor="{AppThemeBinding 
                             Dark={StaticResource TextColorDark}, 
-                            Light={StaticResource TextColor}}" >
+                            Light={StaticResource TextColor}}" />
 
-                        </Entry>
-
-                        <Label Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="1" FontSize="14" Text="Build Number:" TextColor="{AppThemeBinding 
+                        <Label Grid.Column="1" Grid.Row="4" Grid.ColumnSpan="2" FontSize="18" Text="Build Number:" TextColor="{AppThemeBinding 
                           Dark={StaticResource TextColorDark}, 
                           Light={StaticResource TextColor}}" VerticalOptions="Center" HorizontalOptions="End" />
 
-                        <Entry x:Name="BuildNum" Grid.Column="2" Grid.Row="4" FontSize="18" WidthRequest="50" HorizontalOptions="Start" 
+                        <Entry x:Name="BuildNum" Grid.Column="3" Grid.Row="4" FontSize="18" WidthRequest="50" HorizontalOptions="Start" 
                             IsReadOnly="True" 
                            TextColor="{AppThemeBinding 
                             Dark={StaticResource TextColorDark}, 
                             Light={StaticResource TextColor}}" />
 
-                        <Label Grid.Column="3" Grid.Row="4" Grid.ColumnSpan="1" FontSize="14" Text="TPS Max Voltage:" TextColor="{AppThemeBinding 
+                        <Label Grid.Column="4" Grid.Row="4" Grid.ColumnSpan="3" FontSize="18" Text="TPS Max Voltage:" TextColor="{AppThemeBinding 
                           Dark={StaticResource TextColorDark}, 
                           Light={StaticResource TextColor}}" VerticalOptions="Center" HorizontalOptions="End" />
 
-                        <Entry x:Name="TpsMax" Grid.Column="4" Grid.Row="4" FontSize="18" WidthRequest="50" 
+                        <Entry x:Name="TpsMax" Grid.Column="7" Grid.Row="4" FontSize="18" WidthRequest="50" 
                             HorizontalOptions="Start" Keyboard="Numeric" 
                             TextColor="{AppThemeBinding 
                                 Dark={StaticResource TextColorDark}, 

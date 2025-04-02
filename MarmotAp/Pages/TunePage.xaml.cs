@@ -6,6 +6,11 @@ namespace MarmotAp.Pages;
 
 public partial class TunePage : ContentPage
 {
+    private double dDiffRatio = 3.31F;
+    private double dTireSize = 32.5F;
+    private readonly double[] tireSizes = { 24, 25, 26.5, 27, 27.5, 28, 28.5, 29, 29.5, 30, 30.5, 31, 31.5, 32, 32.5, 33, 33.5, 34, 34.5, 35, 36, 37, 38, 39, 40 };
+    private readonly double[] diffRatios = { 2.90, 3.11, 3.20, 3.31, 3.42, 3.50, 3.55, 3.60, 3.73, 3.90, 4.10, 4.33, 4.54, 4.86, 5.00 };
+
     private int iStep = 1;
     private bool bToggleUnlock = true;
     private bool bToggleLockup = true;
@@ -26,6 +31,7 @@ public partial class TunePage : ContentPage
 	{
 		InitializeComponent();
         InitTunes();
+        InitTuneData();
 	}
 
     protected override void OnAppearing()
@@ -43,8 +49,6 @@ public partial class TunePage : ContentPage
             }
         }
         AddVal.SelectedIndex = 14;
-
-
     }
     protected override void OnDisappearing()
     {
@@ -62,39 +66,17 @@ public partial class TunePage : ContentPage
                 SaveDefaultTunes();
             ParseSelectedFileToTunes(last_file);
         }
+    }
+    private void InitTuneData()
+    {
+        for (int i = 0; i < tireSizes.Length; i++)
+            TireSize.Items.Add(tireSizes[i].ToString());
 
-        
-        
-        // Tune1
-        //tune1.Unlock = Unlock.ItemsSource as ObservableCollection<Models.Point>;
-        //tune1.Lockup = Lockup.ItemsSource as ObservableCollection<Models.Point>;
-        //tune1.ODoff = ODoff.ItemsSource as ObservableCollection<Models.Point>;
-        //tune1.ODon = ODon.ItemsSource as ObservableCollection<Models.Point>;
-        //tune1.Shift_12 = Shift_12.ItemsSource as ObservableCollection<Models.Point>;
-        //tune1.Shift_23 = Shift_23.ItemsSource as ObservableCollection<Models.Point>;
-        //tune1.Shift_21 = Shift_21.ItemsSource as ObservableCollection<Models.Point>;
-        //tune1.Shift_32 = Shift_32.ItemsSource as ObservableCollection<Models.Point>;
+        TireSize.SelectedIndex = 0;
 
-        //// Tune2
-        //tune2.Unlock = Unlock.ItemsSource as ObservableCollection<Models.Point>;
-        //tune2.Lockup = Lockup.ItemsSource as ObservableCollection<Models.Point>;
-        //tune2.ODoff = ODoff.ItemsSource as ObservableCollection<Models.Point>;
-        //tune2.ODon = ODon.ItemsSource as ObservableCollection<Models.Point>;
-        //tune2.Shift_12 = Shift_12.ItemsSource as ObservableCollection<Models.Point>;
-        //tune2.Shift_23 = Shift_23.ItemsSource as ObservableCollection<Models.Point>;
-        //tune2.Shift_21 = Shift_21.ItemsSource as ObservableCollection<Models.Point>;
-        //tune2.Shift_32 = Shift_32.ItemsSource as ObservableCollection<Models.Point>;
-
-        //// Tune3
-        //tune3.Unlock = Unlock.ItemsSource as ObservableCollection<Models.Point>;
-        //tune3.Lockup = Lockup.ItemsSource as ObservableCollection<Models.Point>;
-        //tune3.ODoff = ODoff.ItemsSource as ObservableCollection<Models.Point>;
-        //tune3.ODon = ODon.ItemsSource as ObservableCollection<Models.Point>;
-        //tune3.Shift_12 = Shift_12.ItemsSource as ObservableCollection<Models.Point>;
-        //tune3.Shift_23 = Shift_23.ItemsSource as ObservableCollection<Models.Point>;
-        //tune3.Shift_21 = Shift_21.ItemsSource as ObservableCollection<Models.Point>;
-        //tune3.Shift_32 = Shift_32.ItemsSource as ObservableCollection<Models.Point>;
-
+        for (int i = 0; i < diffRatios.Length; i++)
+            DiffRatio.Items.Add(String.Format("{0:F2}", diffRatios[i]));
+        DiffRatio.SelectedIndex = 0;
     }
     private void Tune1_Clicked(object sender, EventArgs e)
     {
@@ -201,9 +183,16 @@ public partial class TunePage : ContentPage
         }
     }
 
-    private void Data_Clicked(object sender, EventArgs e)
+    private void TuneData_Clicked(object sender, EventArgs e)
     {
+        PageTitle.Text = "Tune Data";
+        if (TuneDataStack.IsVisible == true)
+        { return; }
 
+        MainStack.IsVisible = false;
+        TuneDataStack.IsVisible = true;
+        icurrentTune = 0;
+       
     }
 
     private void SaveDefaultTunes()
@@ -936,6 +925,7 @@ public partial class TunePage : ContentPage
 
     private void OnSwipeLeft(object sender, EventArgs e)
     {
+        // Actually we are moving Left
         if (TuneDataStack.IsVisible == true)
         {
             TuneDataStack.IsVisible = false;
@@ -958,6 +948,7 @@ public partial class TunePage : ContentPage
 
     private void OnSwipeRight(object sender, EventArgs e)
     {
+
         if (icurrentTune == 1)
         {
             Tune2_Clicked(sender, e);
@@ -973,18 +964,42 @@ public partial class TunePage : ContentPage
             MainStack.IsVisible = false;
             TuneDataStack.IsVisible = true;
             PageTitle.Text = "Tune Data";
-            
         }
-
     }
 
     private void TireSize_SelectedIndexChanged(object sender, EventArgs e)
     {
-
+        try
+        {
+            Picker p = (Picker)sender;
+            if (p.SelectedItem != null)
+            {
+                var sel = p.SelectedItem;
+                dTireSize = double.Parse(sel.ToString());
+                //var i = p.Items[p.SelectedIndex];
+            }
+        }
+        catch (Exception ex)
+        {
+            DisplayAlert("Error *", "TireSize_SelectedIndex failed " + ex.Message, "Ok");
+        }
     }
 
     private void DiffRatio_SelectedIndexChanged(object sender, EventArgs e)
     {
-
+        try
+        {
+            Picker p = (Picker)sender;
+            if (p.SelectedItem != null)
+            {
+                var sel = p.SelectedItem;
+                dDiffRatio = double.Parse(sel.ToString());
+                //var i = p.Items[p.SelectedIndex];
+            }
+        }
+        catch (Exception ex)
+        {
+            DisplayAlert("Error *", "DiffRatio_SelectedIndexChanged failed " + ex.Message, "Ok");
+        }
     }
 }
