@@ -44,10 +44,14 @@
                 <SwipeView>
 
                     <SwipeView.LeftItems>
-                        <SwipeItem IconImageSource="arrow_alt_circle_left.svg" Invoked="OnSwipeLeft" />
+                        <SwipeItems Mode="Execute">
+                            <SwipeItem IconImageSource="arrow_alt_circle_left.svg" Invoked="OnSwipeLeft" />
+                        </SwipeItems>
                     </SwipeView.LeftItems>
                     <SwipeView.RightItems>
-                        <SwipeItem IconImageSource="arrow_alt_circle_right.svg" Invoked="OnSwipeRight" />
+                        <SwipeItems Mode="Execute">
+                            <SwipeItem IconImageSource="arrow_alt_circle_right.svg" Invoked="OnSwipeRight" />
+                        </SwipeItems>
                     </SwipeView.RightItems>
 
                     <charts:SfCartesianChart x:Name="MainChart" VerticalOptions="Start" HeightRequest="400" Margin="0" 
@@ -364,12 +368,17 @@
                     </Grid.ColumnDefinitions>
                 </Grid>
                 <SwipeView>
-
+                    
+                        
                     <SwipeView.LeftItems>
-                        <SwipeItem IconImageSource="arrow_alt_circle_left.svg" Invoked="OnSwipeLeft" />
+                        <SwipeItems Mode="Execute">
+                            <SwipeItem IconImageSource="arrow_alt_circle_left.svg" Invoked="OnSwipeLeft"  />
+                        </SwipeItems>
                     </SwipeView.LeftItems>
                     <SwipeView.RightItems>
-                        <SwipeItem IconImageSource="arrow_alt_circle_right.svg" Invoked="OnSwipeRight" />
+                        <SwipeItems  Mode="Execute">
+                            <SwipeItem IconImageSource="arrow_alt_circle_right.svg" Invoked="OnSwipeRight" />
+                        </SwipeItems>
                     </SwipeView.RightItems>
 
 
