@@ -203,6 +203,8 @@ public partial class TunePage : ContentPage
 
     private void SaveDefaultTunes()
     {
+        VersionAndBuild v = new VersionAndBuild();
+
         XDocument d = new XDocument(
                     new XComment("The Three Tunes."),
                     new XProcessingInstruction("xml-stylesheet", "href='mystyle.css' title='Compact' type='text/css'"),
@@ -247,7 +249,7 @@ public partial class TunePage : ContentPage
                             new XElement("auxMin", "0.5"),
                             new XElement("auxMax", "4.5"),
                             new XElement("dsrevpermile", "2000"),
-                            new XElement("buildNum", "1"),
+                            new XElement("buildNum", Int16.Parse(v.GetBuildNumber())),
                             new XElement("tempRatio", "0"),
                             new XElement("pressure12", "45"),
                             new XElement("pressure23", "100")
@@ -437,6 +439,7 @@ public partial class TunePage : ContentPage
     {
         try
         {
+            VersionAndBuild v = new VersionAndBuild();
 
             XDocument d = new XDocument(
                         new XComment("The Three Tunes."),
@@ -481,8 +484,8 @@ public partial class TunePage : ContentPage
                                 new XElement("tpsMax", TpsMax.Text),
                                 new XElement("auxMin", AuxMin.Text),
                                 new XElement("auxMax", AuxMax.Text),
-                                new XElement("dsrevpermile", "2000"),
-                                new XElement("buildNum", tuneData.buildNum.ToString()),
+                                new XElement("dsrevpermile", "2000"), //Convert.ToUInt16((5280 / (tireSize * Math.PI / 12)) * gearRatio);
+                                new XElement("buildNum", Int16.Parse(v.GetBuildNumber())),
                                 new XElement("tempRatio", "0"),
                                 new XElement("pressure12", Pressure12.Text),
                                 new XElement("pressure23", "100")

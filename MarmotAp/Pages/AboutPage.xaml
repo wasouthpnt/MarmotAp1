@@ -14,13 +14,15 @@
                   VerticalOptions="Start">
 
                 <HorizontalStackLayout Grid.Row="0">
-                    <Label Text="{Binding Name}"
+                    <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10">
+                    <Label Text="{Binding Name}" Grid.Column="0"
                            VerticalOptions="Center"
                            Style="{StaticResource MediumLabel}"/>
 
-                    <Image HeightRequest="64"
-                           VerticalOptions="Center"
-                           Source="appiconfg.png}"/>
+                    <Image HeightRequest="64" Grid.Column="2"
+                           VerticalOptions="End"
+                           Source="logo_432x432.png}"/>
+                    </Grid>
                 </HorizontalStackLayout>
 
                 <Label Grid.Row="1"
