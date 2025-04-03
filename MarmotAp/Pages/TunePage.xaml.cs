@@ -71,9 +71,15 @@ public partial class TunePage : ContentPage
     {
         for (int i = 0; i < tireSizes.Length; i++)
             TireSize.Items.Add(tireSizes[i].ToString());
-
         TireSize.SelectedIndex = 0;
 
+        AntiHunt.Text = tuneData.antiHunt.ToString();
+        Pressure12.Text = tuneData.Pressure12.ToString();
+        TpsMin.Text = tuneData.tpsMin.ToString();
+        TpsMax.Text = tuneData.tpsMax.ToString();
+        AuxMin.Text = tuneData.auxMin.ToString();
+        AuxMax.Text = tuneData.auxMax.ToString();
+        
         for (int i = 0; i < diffRatios.Length; i++)
             DiffRatio.Items.Add(String.Format("{0:F2}", diffRatios[i]));
         DiffRatio.SelectedIndex = 0;
@@ -431,6 +437,7 @@ public partial class TunePage : ContentPage
     {
         try
         {
+
             XDocument d = new XDocument(
                         new XComment("The Three Tunes."),
                         new XProcessingInstruction("xml-stylesheet", "href='mystyle.css' title='Compact' type='text/css'"),
@@ -467,17 +474,17 @@ public partial class TunePage : ContentPage
                             ),
                             new XComment("Tune Data."),
                             new XElement("TuneData",
-                                new XElement("antiHunt", "0"),
-                                new XElement("gearRatio", "3.31"),
-                                new XElement("tireSize", "32.5"),
-                                new XElement("tpsMin", "0"),
-                                new XElement("tpsMax", "2.8"),
-                                new XElement("auxMin", "0.5"),
-                                new XElement("auxMax", "4.5"),
+                                new XElement("antiHunt", AntiHunt.Text),
+                                new XElement("gearRatio", DiffRatio.SelectedItem.ToString()),
+                                new XElement("tireSize", TireSize.SelectedItem.ToString()),
+                                new XElement("tpsMin", TpsMin.Text),
+                                new XElement("tpsMax", TpsMax.Text),
+                                new XElement("auxMin", AuxMin.Text),
+                                new XElement("auxMax", AuxMax.Text),
                                 new XElement("dsrevpermile", "2000"),
-                                new XElement("buildNum", "1"),
+                                new XElement("buildNum", tuneData.buildNum.ToString()),
                                 new XElement("tempRatio", "0"),
-                                new XElement("pressure12", "45"),
+                                new XElement("pressure12", Pressure12.Text),
                                 new XElement("pressure23", "100")
                             )
                         )
@@ -695,6 +702,26 @@ public partial class TunePage : ContentPage
                 System.Diagnostics.Debug.WriteLine(String.Format("{0} - Series= {1}", name, s));
 
             }
+            XmlNode td = doc.DocumentElement.SelectSingleNode("/Tunes/TuneData");
+            XmlNode antiHunt = td.SelectSingleNode("antiHunt");
+            AntiHunt.Text = antiHunt.InnerText;
+            XmlNode tpsMin = td.SelectSingleNode("tpsMin");
+            TpsMin.Text = tpsMin.InnerText;
+            XmlNode tpsMax = td.SelectSingleNode("tpsMax");
+            TpsMax.Text = tpsMax.InnerText;
+            XmlNode auxMin = td.SelectSingleNode("auxMin");
+            AuxMin.Text = auxMin.InnerText;
+            XmlNode auxMax = td.SelectSingleNode("auxMax");
+            AuxMax.Text = auxMax.InnerText;
+            XmlNode pressure12 = td.SelectSingleNode("pressure12");
+            Pressure12.Text = pressure12.InnerText;
+
+            XmlNode buildNum = td.SelectSingleNode("buildNum");
+            BuildNum.Text = buildNum.InnerText;
+
+
+
+
             UpdateChartFromList(tune1, lstT1);
             UpdateChartFromList(tune2, lstT2);
             UpdateChartFromList(tune3, lstT3);
@@ -720,6 +747,8 @@ public partial class TunePage : ContentPage
             Shift_21.ItemsSource = tune1.Shift_21;
             Shift_32.ItemsSource = null;
             Shift_32.ItemsSource = tune1.Shift_32;
+
+
 
         }
         catch (Exception ex)

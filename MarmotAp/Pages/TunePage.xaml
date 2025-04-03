@@ -439,11 +439,11 @@
                                 Dark={StaticResource TextColorDark}, 
                                 Light={StaticResource TextColor}}" />
 
-                        <Label Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="3" FontSize="18" Text="TPS Min Voltage:" TextColor="{AppThemeBinding 
+                        <Label Grid.Column="4" Grid.Row="3" Grid.ColumnSpan="3" FontSize="18" Text="TPS Min Voltage:" TextColor="{AppThemeBinding 
                            Dark={StaticResource TextColorDark}, 
                            Light={StaticResource TextColor}}" VerticalOptions="Center" HorizontalOptions="End" />
 
-                        <Entry x:Name="TpsMin" Grid.Column="3" Grid.Row="3" FontSize="18" WidthRequest="50" 
+                        <Entry x:Name="TpsMin" Grid.Column="7" Grid.Row="3" FontSize="18" WidthRequest="50" 
                          HorizontalOptions="Start" Keyboard="Numeric"  
                          TextColor="{AppThemeBinding 
                             Dark={StaticResource TextColorDark}, 
