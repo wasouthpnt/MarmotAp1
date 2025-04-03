@@ -286,7 +286,7 @@ public partial class TunePage : ContentPage
             case 2:
                 tune2.Unlock = Unlock.ItemsSource as ObservableCollection<Models.Point>;
                 tune2.Lockup = Lockup.ItemsSource as ObservableCollection<Models.Point>;
-                tune1.ODoff = ODoff.ItemsSource as ObservableCollection<Models.Point>;
+                tune2.ODoff = ODoff.ItemsSource as ObservableCollection<Models.Point>;
                 tune2.ODon = ODon.ItemsSource as ObservableCollection<Models.Point>;
                 tune2.Shift_12 = Shift_12.ItemsSource as ObservableCollection<Models.Point>;
                 tune2.Shift_23 = Shift_23.ItemsSource as ObservableCollection<Models.Point>;
@@ -434,7 +434,7 @@ public partial class TunePage : ContentPage
         {
             VersionAndBuild v = new VersionAndBuild();
             double diff = double.Parse(DiffRatio.SelectedItem.ToString());
-            double tire = double.Parse((string)TireSize.SelectedItem.ToString());
+            double tire = double.Parse(TireSize.SelectedItem.ToString());
             int rpm = Convert.ToUInt16((5280 / (tire * Math.PI / 12)) * diff);
             XDocument d = new XDocument(
                         new XComment("The Three Tunes."),
