@@ -2,9 +2,9 @@ namespace MarmotAp.Pages;
 
 public partial class PrivacyStatementPage : ContentPage
 {
-	public PrivacyStatementPage(PrivacyStatementPageViewModel viewModel)
-	{
-		InitializeComponent();
+    public PrivacyStatementPage(PrivacyStatementPageViewModel viewModel)
+    {
+        InitializeComponent();
         BindingContext = viewModel;
     }
     protected override void OnNavigatedTo(NavigatedToEventArgs args)

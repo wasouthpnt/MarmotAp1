@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MarmotAp.Helpers
+﻿namespace MarmotAp.Helpers
 {
     public class Packet10hz
     {

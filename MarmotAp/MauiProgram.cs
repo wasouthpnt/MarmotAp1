@@ -5,29 +5,29 @@ namespace MarmotAp;
 
 public static class MauiProgram
 {
-	public static MauiApp CreateMauiApp()
-	{
-		var builder = MauiApp.CreateBuilder();
+    public static MauiApp CreateMauiApp()
+    {
+        var builder = MauiApp.CreateBuilder();
 
         // Initialise the toolkit
         builder.UseMauiApp<App>()
             .ConfigureSyncfusionCore().UseMauiCommunityToolkit();
 
         builder
-			.UseMauiApp<App>()
+            .UseMauiApp<App>()
             .ConfigureSyncfusionCore()
-            
+
             .ConfigureSyncfusionToolkit()
-            
-			.ConfigureFonts(fonts =>
-			{
-				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-				fonts.AddFont("fa_solid.ttf", "FontAwesome");
-				fonts.AddFont("fa-brands-400.ttf", "FontAwesomeBrands");
+
+            .ConfigureFonts(fonts =>
+            {
+                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                fonts.AddFont("fa_solid.ttf", "FontAwesome");
+                fonts.AddFont("fa-brands-400.ttf", "FontAwesomeBrands");
             });
 
-       
+
         builder.Services.AddSingleton<BluetoothLEService>();
 
         builder.Services.AddSingleton<IConnectivity>(Connectivity.Current);
@@ -55,13 +55,10 @@ public static class MauiProgram
         builder.Services.AddSingleton<PrivacyStatementPageViewModel>();
         builder.Services.AddSingleton<PrivacyStatementPage>();
 
-        //builder.Services.AddSingleton<BatteryLevelPageViewModel>();
-        //builder.Services.AddSingleton<BatteryLevelPage>();
-        
 
 #if DEBUG
         //builder.Logging.AddDebug();
 #endif
         return builder.Build();
-	}
+    }
 }

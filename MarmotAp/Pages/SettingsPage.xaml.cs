@@ -3,9 +3,9 @@ namespace MarmotAp.Pages;
 
 public partial class SettingsPage : ContentPage
 {
-	public SettingsPage(SettingsPageViewModel viewModel)
-	{
-		InitializeComponent();
+    public SettingsPage(SettingsPageViewModel viewModel)
+    {
+        InitializeComponent();
         BindingContext = viewModel;
     }
     protected override void OnNavigatedTo(NavigatedToEventArgs args)

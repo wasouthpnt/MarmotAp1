@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace MarmotAp.Models;
 
-namespace MarmotAp.Models;
-
-public class Tune 
+public class Tune
 {
     public ObservableCollection<Models.Point> Unlock { get; set; }
     public ObservableCollection<Models.Point> Lockup { get; set; }
@@ -21,7 +13,7 @@ public class Tune
 
     public string TuneTitle { get; set; }
 
-    public Tune ()
+    public Tune()
     {
         Unlock = new ObservableCollection<Models.Point>();
         Lockup = new ObservableCollection<Models.Point>();
@@ -57,7 +49,7 @@ public class Tune
         lp.Add(new Models.Point(sName, 90, b[8]));
         lp.Add(new Models.Point(sName, 100, b[9]));
     }
-    
-    
-    
+
+
+
 };

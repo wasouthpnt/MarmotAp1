@@ -220,7 +220,7 @@ public partial class HomePageViewModel : BaseViewModel
             IsScanning = false;
         }
     }
-   
+
     async Task CheckBluetoothAvailabilityAsync()
     {
         if (IsScanning)

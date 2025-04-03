@@ -19,5 +19,5 @@ public class BluetoothLEPermissions : Permissions.BasePlatformPermission
 
             }.ToArray();
         }
-    }    
+    }
 }

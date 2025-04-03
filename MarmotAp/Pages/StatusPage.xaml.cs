@@ -2,9 +2,9 @@ namespace MarmotAp.Pages;
 
 public partial class StatusPage : ContentPage
 {
-	public StatusPage(StatusPageViewModel viewModel)
-	{
-		InitializeComponent();
+    public StatusPage(StatusPageViewModel viewModel)
+    {
+        InitializeComponent();
         BindingContext = viewModel;
     }
     protected override void OnNavigatedTo(NavigatedToEventArgs args)

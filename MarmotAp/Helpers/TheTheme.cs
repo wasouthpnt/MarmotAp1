@@ -1,11 +1,4 @@
-﻿using Microsoft.Maui.ApplicationModel;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MarmotAp.Helpers
+﻿namespace MarmotAp.Helpers
 {
     public static class TheTheme
     {
@@ -45,7 +38,7 @@ namespace MarmotAp.Helpers
                 e?.SetStatusBarColor(System.Drawing.Color.White, true);
                 if (nav != null)
                 {
-                    nav.BarBackgroundColor = Color.FromRgb(255,255,255);
+                    nav.BarBackgroundColor = Color.FromRgb(255, 255, 255);
                     nav.BarTextColor = Color.FromRgb(0, 0, 0);
                 }
             }

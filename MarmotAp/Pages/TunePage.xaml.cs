@@ -28,11 +28,11 @@ public partial class TunePage : ContentPage
     string sCurrentFile = "";
 
     public TunePage()
-	{
-		InitializeComponent();
+    {
+        InitializeComponent();
         InitTunes();
         InitTuneData();
-	}
+    }
 
     protected override void OnAppearing()
     {
@@ -64,6 +64,7 @@ public partial class TunePage : ContentPage
         {
             if (last_file == "default.xml")
                 SaveDefaultTunes();
+            sCurrentFile = last_file;
             ParseSelectedFileToTunes(last_file);
         }
     }
@@ -79,7 +80,7 @@ public partial class TunePage : ContentPage
         TpsMax.Text = tuneData.tpsMax.ToString();
         AuxMin.Text = tuneData.auxMin.ToString();
         AuxMax.Text = tuneData.auxMax.ToString();
-        
+
         for (int i = 0; i < diffRatios.Length; i++)
             DiffRatio.Items.Add(String.Format("{0:F2}", diffRatios[i]));
         DiffRatio.SelectedIndex = 0;
@@ -191,14 +192,14 @@ public partial class TunePage : ContentPage
 
     private void TuneData_Clicked(object sender, EventArgs e)
     {
-        PageTitle.Text = "Tune Data";
+        PageTitle.Text = "Tune Data " + sCurrentFile;
         if (TuneDataStack.IsVisible == true)
         { return; }
 
         MainStack.IsVisible = false;
         TuneDataStack.IsVisible = true;
         icurrentTune = 0;
-       
+
     }
 
     private void SaveDefaultTunes()
@@ -258,8 +259,8 @@ public partial class TunePage : ContentPage
         );
 
         d.Declaration = new XDeclaration("1.0", "utf-8", "true");
-        Console.WriteLine(d);
-        System.Diagnostics.Debug.WriteLine(d);
+        //Console.WriteLine(d);
+        //System.Diagnostics.Debug.WriteLine(d);
 
         var path = FileSystem.Current.AppDataDirectory;
         var fullpath = Path.Combine(path, "default.xml");
@@ -361,7 +362,6 @@ public partial class TunePage : ContentPage
                         series += p.y.ToString();
                         series += ",";
                     }
-                    series.TrimEnd(',');
                     break;
                 case "Lockup":
                     mp = tune.Lockup.ToArray();
@@ -370,7 +370,6 @@ public partial class TunePage : ContentPage
                         series += p.y.ToString();
                         series += ",";
                     }
-                    series.TrimEnd(',');
                     break;
                 case "ODon":
                     mp = tune.ODon.ToArray();
@@ -379,7 +378,6 @@ public partial class TunePage : ContentPage
                         series += p.y.ToString();
                         series += ",";
                     }
-                    series.TrimEnd(',');
                     break;
                 case "ODoff":
                     mp = tune.ODoff.ToArray();
@@ -388,7 +386,6 @@ public partial class TunePage : ContentPage
                         series += p.y.ToString();
                         series += ",";
                     }
-                    series.TrimEnd(',');
                     break;
                 case "Shift_12":
                     mp = tune.Shift_12.ToArray();
@@ -397,7 +394,6 @@ public partial class TunePage : ContentPage
                         series += p.y.ToString();
                         series += ",";
                     }
-                    series.TrimEnd(',');
                     break;
                 case "Shift_23":
                     mp = tune.Shift_23.ToArray();
@@ -406,7 +402,6 @@ public partial class TunePage : ContentPage
                         series += p.y.ToString();
                         series += ",";
                     }
-                    series.TrimEnd(',');
                     break;
                 case "Shift_21":
                     mp = tune.Shift_21.ToArray();
@@ -415,7 +410,6 @@ public partial class TunePage : ContentPage
                         series += p.y.ToString();
                         series += ",";
                     }
-                    series.TrimEnd(',');
                     break;
                 case "Shift_32":
                     mp = tune.Shift_32.ToArray();
@@ -424,7 +418,6 @@ public partial class TunePage : ContentPage
                         series += p.y.ToString();
                         series += ",";
                     }
-                    series.TrimEnd(',');
                     break;
             }
             return series.TrimEnd(',');
@@ -440,7 +433,9 @@ public partial class TunePage : ContentPage
         try
         {
             VersionAndBuild v = new VersionAndBuild();
-
+            double diff = double.Parse(DiffRatio.SelectedItem.ToString());
+            double tire = double.Parse((string)TireSize.SelectedItem.ToString());
+            int rpm = Convert.ToUInt16((5280 / (tire * Math.PI / 12)) * diff);
             XDocument d = new XDocument(
                         new XComment("The Three Tunes."),
                         new XProcessingInstruction("xml-stylesheet", "href='mystyle.css' title='Compact' type='text/css'"),
@@ -478,13 +473,13 @@ public partial class TunePage : ContentPage
                             new XComment("Tune Data."),
                             new XElement("TuneData",
                                 new XElement("antiHunt", AntiHunt.Text),
-                                new XElement("gearRatio", DiffRatio.SelectedItem.ToString()),
-                                new XElement("tireSize", TireSize.SelectedItem.ToString()),
+                                new XElement("gearRatio", diff.ToString()),
+                                new XElement("tireSize", tire.ToString()),
                                 new XElement("tpsMin", TpsMin.Text),
                                 new XElement("tpsMax", TpsMax.Text),
                                 new XElement("auxMin", AuxMin.Text),
                                 new XElement("auxMax", AuxMax.Text),
-                                new XElement("dsrevpermile", "2000"), //Convert.ToUInt16((5280 / (tireSize * Math.PI / 12)) * gearRatio);
+                                new XElement("dsrevpermile", rpm.ToString()), //Convert.ToUInt16((5280 / (tireSize * Math.PI / 12)) * gearRatio);
                                 new XElement("buildNum", Int16.Parse(v.GetBuildNumber())),
                                 new XElement("tempRatio", "0"),
                                 new XElement("pressure12", Pressure12.Text),
@@ -494,8 +489,8 @@ public partial class TunePage : ContentPage
             );
 
             d.Declaration = new XDeclaration("1.0", "utf-8", "true");
-            Console.WriteLine(d);
-            System.Diagnostics.Debug.WriteLine(d);
+            //Console.WriteLine(d);
+            //System.Diagnostics.Debug.WriteLine(d);
 
             return d;
         }
@@ -627,7 +622,7 @@ public partial class TunePage : ContentPage
                 {
                     Models.Point mp = new Models.Point(t.Name, i += 10, Convert.ToInt32(y));
                     oc.Add(mp);
-                    System.Diagnostics.Debug.WriteLine(String.Format("{0} - x={1} y={2}", mp.Id, mp.x, mp.y));
+                    //System.Diagnostics.Debug.WriteLine(String.Format("{0} - x={1} y={2}", mp.Id, mp.x, mp.y));
 
                 }
                 switch (oc[0].Id)
@@ -669,7 +664,7 @@ public partial class TunePage : ContentPage
     private async void ParseSelectedFileToTunes(string sFile)
     {
         MyActivity.IsVisible = true;
-        
+
         List<TuneSeries> lstT1 = new List<TuneSeries>();
         List<TuneSeries> lstT2 = new List<TuneSeries>();
         List<TuneSeries> lstT3 = new List<TuneSeries>();
@@ -685,7 +680,7 @@ public partial class TunePage : ContentPage
                 string name = n.Name;
                 string s = n.InnerText.ToString();
                 lstT1.Add(new TuneSeries(name, s));
-                System.Diagnostics.Debug.WriteLine(String.Format("{0} - Series= {1}", name, s));
+                //System.Diagnostics.Debug.WriteLine(String.Format("{0} - Series= {1}", name, s));
             }
             XmlNode t2 = doc.DocumentElement.SelectSingleNode("/Tunes/Tune2");
             foreach (XmlNode n in t2.ChildNodes)
@@ -693,7 +688,7 @@ public partial class TunePage : ContentPage
                 string name = n.Name;
                 string s = n.InnerText.ToString();
                 lstT2.Add(new TuneSeries(name, s));
-                System.Diagnostics.Debug.WriteLine(String.Format("{0} - Series= {1}", name, s));
+                //System.Diagnostics.Debug.WriteLine(String.Format("{0} - Series= {1}", name, s));
 
             }
             XmlNode t3 = doc.DocumentElement.SelectSingleNode("/Tunes/Tune3");
@@ -702,28 +697,38 @@ public partial class TunePage : ContentPage
                 string name = n.Name;
                 string s = n.InnerText.ToString();
                 lstT3.Add(new TuneSeries(name, s));
-                System.Diagnostics.Debug.WriteLine(String.Format("{0} - Series= {1}", name, s));
+                //System.Diagnostics.Debug.WriteLine(String.Format("{0} - Series= {1}", name, s));
 
             }
+
             XmlNode td = doc.DocumentElement.SelectSingleNode("/Tunes/TuneData");
+            
             XmlNode antiHunt = td.SelectSingleNode("antiHunt");
             AntiHunt.Text = antiHunt.InnerText;
+            
             XmlNode tpsMin = td.SelectSingleNode("tpsMin");
             TpsMin.Text = tpsMin.InnerText;
+            
             XmlNode tpsMax = td.SelectSingleNode("tpsMax");
             TpsMax.Text = tpsMax.InnerText;
+            
             XmlNode auxMin = td.SelectSingleNode("auxMin");
             AuxMin.Text = auxMin.InnerText;
+            
             XmlNode auxMax = td.SelectSingleNode("auxMax");
             AuxMax.Text = auxMax.InnerText;
+
             XmlNode pressure12 = td.SelectSingleNode("pressure12");
             Pressure12.Text = pressure12.InnerText;
 
+            XmlNode gear = td.SelectSingleNode("gearRatio");
+            DiffRatio.SelectedItem = gear.InnerText;
+
+            XmlNode tire = td.SelectSingleNode("tireSize");
+            TireSize.SelectedItem = tire.InnerText;
+
             XmlNode buildNum = td.SelectSingleNode("buildNum");
             BuildNum.Text = buildNum.InnerText;
-
-
-
 
             UpdateChartFromList(tune1, lstT1);
             UpdateChartFromList(tune2, lstT2);
@@ -731,8 +736,7 @@ public partial class TunePage : ContentPage
 
             // Set to tune 1
             icurrentTune = 1;
-            PageTitle.Text = "Tune 1 " + sCurrentFile;
-
+            PageTitle.Text = "Tune 1 " + sFile;
 
             Unlock.ItemsSource = null;
             Unlock.ItemsSource = tune1.Unlock;
@@ -750,8 +754,6 @@ public partial class TunePage : ContentPage
             Shift_21.ItemsSource = tune1.Shift_21;
             Shift_32.ItemsSource = null;
             Shift_32.ItemsSource = tune1.Shift_32;
-
-
 
         }
         catch (Exception ex)
@@ -781,7 +783,7 @@ public partial class TunePage : ContentPage
             ParseSelectedFileToTunes(sel.ToString());
             sCurrentFile = sel.ToString();
 
-            Preferences.Set("Last_File", sCurrentFile);
+            Preferences.Set("Last_File", sel.ToString());
 
         }
         FileList.IsVisible = false;
@@ -995,7 +997,7 @@ public partial class TunePage : ContentPage
         {
             MainStack.IsVisible = false;
             TuneDataStack.IsVisible = true;
-            PageTitle.Text = "Tune Data";
+            PageTitle.Text = "Tune Data " + sCurrentFile;
         }
     }
 

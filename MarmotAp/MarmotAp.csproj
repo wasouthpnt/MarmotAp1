@@ -65,7 +65,7 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\logo_432x432.png" Color="#2C6FCF" />
+	<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\logo_432x432.png" Color="#2C6FCF" />
 
 		<!-- Splash Screen -->
 		<!--<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#2C6FCF" BaseSize="128,128" />-->
@@ -82,14 +82,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Remove="Pages\BatteryLevelPage.xaml.cs" />
 	  <Compile Remove="Pages\EditPage.xaml.cs" />
-	  <Compile Remove="ViewModels\BatteryLevelPageViewModel.cs" />
 	  <Compile Remove="ViewModels\EditPageViewModel.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Remove="Pages\BatteryLevelPage.xaml" />
 	  <MauiXaml Remove="Pages\EditPage.xaml" />
 	</ItemGroup>
 
@@ -145,6 +142,6 @@
 	  <Folder Include="Interface\" />
 	</ItemGroup>
 
-	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionMarmotApHideInfoBar="True" /></VisualStudio></ProjectExtensions>
+	<!--<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionMarmotApHideInfoBar="True" /></VisualStudio></ProjectExtensions>-->
 
 </Project>

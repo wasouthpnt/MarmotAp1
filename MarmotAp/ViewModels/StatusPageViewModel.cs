@@ -16,7 +16,7 @@ public partial class StatusPageViewModel : BaseViewModel
     public IService FirepunkService { get; private set; }
     public ICharacteristic FirepunkCharacteristic1 { get; private set; }
     public ICharacteristic FirepunkCharacteristic2 { get; private set; }
-    
+
     public StatusPageViewModel(BluetoothLEService bluetoothLEService)
     {
         //Title = $"Status Page";
@@ -121,7 +121,7 @@ public partial class StatusPageViewModel : BaseViewModel
 
             if (BluetoothLEService.Device.State == DeviceState.Connected)
             {
-                
+
                 FirepunkService = await BluetoothLEService.Device.GetServiceAsync(FirepunkUuids.FirepunkServiceUuid);
                 if (FirepunkService != null)
                 {
@@ -132,7 +132,7 @@ public partial class StatusPageViewModel : BaseViewModel
 
                     if (App.g_Characteristic_1.CanUpdate)
                     {
-                       
+
 
                         #region save device id to storage
                         await SecureStorage.Default.SetAsync("device_name", $"{BluetoothLEService.Device.Name}");
@@ -185,7 +185,7 @@ public partial class StatusPageViewModel : BaseViewModel
                 if (data[0] == 0x0A)
                 {
                     receivedBytes.CopyTo(data, notifyCallBackMax);
-                   
+
                     // Parse into a Packet10hz
                     Packet10hz p = new Packet10hz();
                     p = Parse.ToPacket10hz(data);
@@ -194,7 +194,7 @@ public partial class StatusPageViewModel : BaseViewModel
                     App.packet10Hz = p;
 
                     MPHValue = p.mph.ToString();
-                    string sMPH = Preferences.Get("MPH","0");
+                    string sMPH = Preferences.Get("MPH", "0");
                     if (sMPH != MPHValue)
                     {
                         Preferences.Set("MPH", MPHValue);

@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-using System.Text;
-using System.Windows.Input;
+﻿using System.Text;
 
 namespace MarmotAp.ViewModels
 {
@@ -127,7 +125,7 @@ namespace MarmotAp.ViewModels
                 byte[] array = Encoding.UTF8.GetBytes("dev?:" + sdev);   // Set the new unique device name in the ESP32
                 await App.g_Characteristic_2.WriteAsync(array);          // Set the device signature (DevName)
                 Thread.Sleep(50);
-                 
+
                 var receivedBytes = await App.g_Characteristic_2.ReadAsync();
                 string s = Encoding.UTF8.GetString(receivedBytes.data, 0, receivedBytes.data.Length);
             }

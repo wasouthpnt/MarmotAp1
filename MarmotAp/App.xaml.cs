@@ -1,6 +1,4 @@
-﻿using System.Reflection.PortableExecutable;
-
-namespace MarmotAp;
+﻿namespace MarmotAp;
 
 // App structure reference "https://github.com/TimoKinnunen/MauiXAMLBluetoothLE"
 
@@ -14,9 +12,9 @@ public partial class App : Application
     public static Packet10hz packet10Hz = null;
 
     public App()
-	{
-		InitializeComponent();
-        
+    {
+        InitializeComponent();
+
         Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Mzc2OTgzOEAzMjM4MmUzMDJlMzBCNWxoYjE3ZEpMWnEwb0ZOSnFwUDJhWXVQNUk5YVlmeVpGaTUzMVdhZlp3PQ==");
         string s = Preferences.Get("@string/DevKey", "");
         Preferences.Set("MPH", "0");
@@ -30,15 +28,15 @@ public partial class App : Application
 
 
         MainPage = new AppShell();
-	}
+    }
 
-	protected override void OnSleep()
-	{
-		base.OnSleep();
-	}
+    protected override void OnSleep()
+    {
+        base.OnSleep();
+    }
 
-	protected override void OnResume()
-	{
-		base.OnResume();
-	}
+    protected override void OnResume()
+    {
+        base.OnResume();
+    }
 }

@@ -44,7 +44,7 @@ public class BluetoothLEService
             }
             await Adapter.StartScanningForDevicesAsync(FirepunkUuids.FirepunkServiceUuids);
 
-            
+
         }
         catch (Exception ex)
         {
