@@ -83,11 +83,11 @@
         </ShellContent>
     </FlyoutItem>
 
-    <!--<FlyoutItem Title="Battery level"
-                FlyoutIcon="{StaticResource IconBatteryLevel}">
-        <ShellContent ContentTemplate="{DataTemplate pages:BatteryLevelPage}"
-                      Route="BatteryLevelPage">
+    <FlyoutItem Title="Test"
+                FlyoutIcon="{StaticResource IconTachometer}">
+        <ShellContent ContentTemplate="{DataTemplate pages:TestPage}"
+                      Route="TestPage">
         </ShellContent>
-    </FlyoutItem>-->
+    </FlyoutItem>
     
 </Shell>

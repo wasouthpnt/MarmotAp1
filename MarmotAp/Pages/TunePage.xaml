@@ -4,7 +4,10 @@
              xmlns:charts="clr-namespace:Syncfusion.Maui.Charts;assembly=Syncfusion.Maui.Charts"
              xmlns:vm="clr-namespace:MarmotAp.ViewModels"
              x:Class="MarmotAp.Pages.TunePage"
-             Title="TunePage">
+             Title="TunePage"
+              BackgroundColor="{AppThemeBinding 
+                Dark={StaticResource WindowBackgroundColorDark}, 
+                Light={StaticResource WindowBackgroundColor}}">
 
     <Shell.TitleView>
         <HorizontalStackLayout  VerticalOptions="Fill">

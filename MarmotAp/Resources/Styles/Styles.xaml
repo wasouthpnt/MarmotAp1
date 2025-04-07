@@ -62,11 +62,11 @@
            Glyph="{x:Static local:IconFont.Comment}"/>
 
 
-    <FontImage x:Key="IconBatteryLevel"
+    <FontImage x:Key="IconTachometer"
                FontFamily="FontAwesome"
                Size="22"
                Color="{StaticResource Primary}"
-               Glyph="{x:Static local:IconFont.BatteryThreeQuarters}"/>
+               Glyph="{x:Static local:IconFont.TachometerAlt}"/>
 
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />

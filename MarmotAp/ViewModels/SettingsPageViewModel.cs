@@ -114,7 +114,7 @@ namespace MarmotAp.ViewModels
                 await Shell.Current.DisplayAlert("?", "Nothing to change", "Ok");
                 return;
             }
-            //WriteSignature();
+            WriteSignature();
         }
 
         private async void WriteSignature()

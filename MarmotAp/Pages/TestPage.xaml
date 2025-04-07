@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MarmotAp.Pages.TestPage" 
+             Title ="TestPage"
+             BackgroundColor="{AppThemeBinding 
+            Dark={StaticResource WindowBackgroundColorDark}, 
+            Light={StaticResource WindowBackgroundColor}}">
+
+
+    <Shell.TitleView>
+        <HorizontalStackLayout  VerticalOptions="Fill">
+            <Label x:Name="PageTitle"
+           Text="{Binding Title}"
+           FontSize="24"
+           Margin="10,0"
+           VerticalTextAlignment="Center"/>
+        </HorizontalStackLayout>
+    </Shell.TitleView>
+
+    <StackLayout Margin="10">
+        <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
+            ColumnDefinitions="*,*,*,*,*"
+            RowSpacing="10"
+            HorizontalOptions="Fill"
+            VerticalOptions="Start">
+            <Button x:Name="btnWriteSignature" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="5" Clicked="WriteSignature_Clicked" 
+                    Style="{StaticResource ButtonOutline}" Text="Write Signature" />
+            <Button x:Name="btnReadSignature" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="5" Clicked="ReadSignature_Clicked" 
+                    Style="{StaticResource ButtonOutline}" Text="Read Signature" />
+            <Button x:Name="btnWriteCmd" Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="5" Clicked="WriteCmd_Clicked" 
+                    Style="{StaticResource ButtonOutline}" Text="Write CMD" />
+            <Button x:Name="btnReadCmd" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="5" Clicked="ReadCmd_Clicked" 
+                    Style="{StaticResource ButtonOutline}" Text="Read CMD" />
+            <Button x:Name="btnRegisterCallback" Grid.Column="0" Grid.Row="4" Grid.ColumnSpan="5" Clicked="RegisterCallback_Clicked" 
+                    Style="{StaticResource ButtonOutline}" Text="Register Callback" />
+            
+                <!-- Entry textfield to insert Strings to send to Characteristics -->
+            <Entry x:Name="CommandTxt"  Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="5"
+                     Text="ver?:" TextColor="{AppThemeBinding 
+                        Dark={StaticResource TextColorDark}, 
+                        Light={StaticResource TextColor}}" />
+
+            
+            <!-- Entry textfield to insert Strings from Characteristics -->
+            <Entry x:Name="CommandRecTxt" IsReadOnly="True"  Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="5"
+                    Text="" TextColor="{AppThemeBinding 
+                        Dark={StaticResource TextColorDark}, 
+                        Light={StaticResource TextColor}}" />
+
+            <Label x:Name="MPH"  Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="5"
+                    FontSize="120" 
+                    TextColor="{AppThemeBinding 
+                        Dark={StaticResource TextColorDark}, 
+                        Light={StaticResource TextColor}}"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"/>
+
+            <!-- Scrollview to show BLE callback communication -->
+            <ScrollView VerticalOptions="Center"  Grid.Column="0" Grid.Row="8" Grid.ColumnSpan="5" HorizontalOptions="Center">
+                <StackLayout HeightRequest="200">
+                    <Label x:Name="Output"
+                    TextColor="{AppThemeBinding 
+                            Dark={StaticResource TextColorDark}, 
+                            Light={StaticResource TextColor}}"
+                    VerticalOptions="Center" />
+                </StackLayout>
+            </ScrollView>
+        </Grid>
+
+        <!-- Label to show error messages -->
+        <Label Text="" TextColor="DarkRed" x:Name="ErrorLabel" FontAttributes="Bold" FontSize="Medium"/>
+    </StackLayout>
+    
+</ContentPage>
