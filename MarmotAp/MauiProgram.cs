@@ -40,9 +40,6 @@ public static class MauiProgram
         builder.Services.AddSingleton<StatusPageViewModel>();
         builder.Services.AddSingleton<StatusPage>();
 
-        //builder.Services.AddSingleton<EditPageViewModel>();
-        //builder.Services.AddSingleton<EditPage>();
-
         builder.Services.AddSingleton<SettingsPageViewModel>();
         builder.Services.AddSingleton<SettingsPage>();
 

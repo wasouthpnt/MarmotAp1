@@ -65,11 +65,11 @@
 
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\logo_432x432.png" Color="#2C6FCF" />
+		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\logo_432x432.png" Color="#2C6FCF" BaseSize="128,128" />
 
 		<!-- Splash Screen -->
 		<!--<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#2C6FCF" BaseSize="128,128" />-->
-		<MauiSplashScreen Include="Resources\AppIcon\logo_432x432.png" Color="#2C6FCF" />
+		<MauiSplashScreen Include="Resources\AppIcon\logo_432x432.png" Color="#2C6FCF"  BaseSize="128,128" />
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
@@ -79,15 +79,6 @@
 
 		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Compile Remove="Pages\EditPage.xaml.cs" />
-	  <Compile Remove="ViewModels\EditPageViewModel.cs" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <MauiXaml Remove="Pages\EditPage.xaml" />
 	</ItemGroup>
 
 	<ItemGroup>

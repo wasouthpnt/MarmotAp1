@@ -92,6 +92,8 @@ public class BluetoothLEService
             try
             {
                 await ShowToastAsync($"{e.Device.Name} is connected.");
+                Thread.Sleep(1000);
+                await ShowToastAsync("Now use the menu for additional functions.");
             }
             catch
             {

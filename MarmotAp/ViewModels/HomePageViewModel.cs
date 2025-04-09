@@ -79,6 +79,8 @@ public partial class HomePageViewModel : BaseViewModel
                     if (BluetoothLEService.Device.Id.Equals(BluetoothLEService.NewDeviceCandidateFromHomePage.Id))
                     {
                         await BluetoothLEService.ShowToastAsync($"{BluetoothLEService.Device.Name} is already connected.");
+                        Thread.Sleep(1000);
+                        await BluetoothLEService.ShowToastAsync("Now use the menu for additional functions.");
                         return;
                     }
 
@@ -108,11 +110,6 @@ public partial class HomePageViewModel : BaseViewModel
 
                     Title = $"{BluetoothLEService.Device.Name}";
 
-                    //if (FirepunkCharacteristic1.CanUpdate)
-                    //{
-                    //FirepunkCharacteristic1.ValueUpdated += FirepunkCharacteristic1_ValueUpdated;
-                    //await FirepunkCharacteristic1.StartUpdatesAsync();
-                    //}
                     #region save device id to storage
                     await SecureStorage.Default.SetAsync("device_name", $"{BluetoothLEService.Device.Name}");
                     await SecureStorage.Default.SetAsync("device_id", $"{BluetoothLEService.Device.Id}");
@@ -198,6 +195,9 @@ public partial class HomePageViewModel : BaseViewModel
             if (deviceCandidates.Count == 0)
             {
                 await BluetoothLEService.ShowToastAsync($"Unable to find nearby Bluetooth LE devices. Try again.");
+                Thread.Sleep(2000);
+                await BluetoothLEService.ShowToastAsync($"Pair with the device first then try again.");
+
             }
 
             if (DeviceCandidates.Count > 0)
