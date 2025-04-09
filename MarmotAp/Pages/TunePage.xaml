@@ -331,7 +331,7 @@
 
 
                 <Grid RowDefinitions="Auto"
-                ColumnDefinitions="*,*,*"
+                ColumnDefinitions="*,*,*,*"
                 ColumnSpacing="10"
                 RowSpacing="0"
                 HorizontalOptions="Fill"
@@ -347,6 +347,11 @@
                     Light={StaticResource TextColor}}" />
 
                     <Button x:Name="LoadFile" Grid.Row="0" Grid.Column="2" Text="Load File" Clicked="LoadFile_Clicked" Style="{StaticResource ButtonOutline}" 
+                TextColor="{AppThemeBinding 
+                    Dark={StaticResource TextColorDark}, 
+                    Light={StaticResource TextColor}}" />
+
+                    <Button x:Name="Upload" Grid.Row="0" Grid.Column="3" Text="Upload" Clicked="Upload_Clicked" Style="{StaticResource ButtonOutline}" 
                 TextColor="{AppThemeBinding 
                     Dark={StaticResource TextColorDark}, 
                     Light={StaticResource TextColor}}" />

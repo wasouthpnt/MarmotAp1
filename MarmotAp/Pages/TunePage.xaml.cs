@@ -1,4 +1,5 @@
 using Syncfusion.Maui.Charts;
+using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -25,6 +26,7 @@ public partial class TunePage : ContentPage
     Tune tune3 = new Tune();
     TuneData tuneData = new TuneData();
     int icurrentTune = 0;
+    private byte curTuneHeader = 0x30;
     string sCurrentFile = "";
 
     public TunePage()
@@ -93,6 +95,7 @@ public partial class TunePage : ContentPage
 
             SaveCurrentTune();
             icurrentTune = 1;
+            curTuneHeader = 0x30;
 
             Unlock.ItemsSource = null;
             Unlock.ItemsSource = tune1.Unlock;
@@ -128,6 +131,7 @@ public partial class TunePage : ContentPage
 
             SaveCurrentTune();
             icurrentTune = 2;
+            curTuneHeader = 0x31;
 
             Unlock.ItemsSource = null;
             Unlock.ItemsSource = tune2.Unlock;
@@ -163,6 +167,7 @@ public partial class TunePage : ContentPage
 
             SaveCurrentTune();
             icurrentTune = 3;
+            curTuneHeader = 0x32;
 
             Unlock.ItemsSource = null;
             Unlock.ItemsSource = tune3.Unlock;
@@ -199,6 +204,7 @@ public partial class TunePage : ContentPage
         MainStack.IsVisible = false;
         TuneDataStack.IsVisible = true;
         icurrentTune = 0;
+        curTuneHeader = 0;
 
     }
 
@@ -306,7 +312,7 @@ public partial class TunePage : ContentPage
 
         }
     }
-    private void Chart_SelectionChanged(object sender, Syncfusion.Maui.Charts.ChartSelectionChangedEventArgs e)
+    private async void Chart_SelectionChanged(object sender, Syncfusion.Maui.Charts.ChartSelectionChangedEventArgs e)
     {
         LineSeries ls = sender as LineSeries;
         List<int> nix = e.NewIndexes;
@@ -345,6 +351,16 @@ public partial class TunePage : ContentPage
             case "Shift_32":
                 lblShift_32.Text = String.Format("TPS={0},MPH={1}", lp[nix[0]].x, lp[nix[0]].y);
                 break;
+        }
+
+        if (LiveUpdate.IsChecked == true)
+        {
+            if (App.g_Characteristic_2 == null)
+            {
+                await Shell.Current.DisplayAlert("Error", "Please connect to Anteater first.", "Cancel");
+                return;
+            }
+            await SendBTData(curTuneHeader, lp);
         }
     }
     private string TuneSeriesToString(Tune tune, string seriesName)
@@ -501,13 +517,122 @@ public partial class TunePage : ContentPage
         }
         return null;
     }
+
+    private byte[] LineSeriesToByteArray(byte Tune, ObservableCollection<MarmotAp.Models.Point> data)
+    {
+        try
+        {
+            string s = data[0].Id.ToString();
+            byte[] bytes = Encoding.ASCII.GetBytes(s);
+            byte[] tune = new byte[] { Tune };
+            byte[] bdata = new byte[] { (byte)data[0].y, (byte)data[1].y, (byte)data[2].y, (byte)data[3].y, (byte)data[4].y,
+                                            (byte)data[5].y, (byte)data[6].y, (byte)data[7].y, (byte)data[8].y, (byte)data[9].y};
+            byte[] b = new byte[20];
+            Buffer.BlockCopy(tune, 0, b, 0, 1);
+            Buffer.BlockCopy(bytes, 0, b, 1, s.Length);
+            Buffer.BlockCopy(bdata, 0, b, s.Length + 1, bdata.Length);
+
+            return b;
+        }
+        catch
+        {
+            Shell.Current.DisplayAlert("Error", "SendBTData", "Cancel");
+            return null;
+        }
+        finally { this.IsBusy = false; }
+    }
+    private async Task SendBTData(byte Tune, ObservableCollection<MarmotAp.Models.Point> data)
+    {
+        //if (App.g_Characteristic_2 == null)
+        //{
+        //    await Shell.Current.DisplayAlert("Error *", "Are you connected?", "Cancel");
+        //    return;
+        //}
+        if (data == null)
+        {
+            await Shell.Current.DisplayAlert("Error *", "data == null", "Cancel");
+            return;
+        }
+        try
+        {
+            byte[] b = LineSeriesToByteArray(Tune, data);
+            if (b == null)
+                return;
+
+            await App.g_Characteristic_2.WriteAsync(b);
+            Thread.Sleep(50);
+            //var receivedBytes = await App.g_Characteristic_2.ReadAsync();
+            //await DisplayAlert("Rec", Encoding.UTF8.GetString(receivedBytes, 0, receivedBytes.Length) + Environment.NewLine, "OK");
+
+        }
+        catch
+        {
+            await Shell.Current.DisplayAlert("Error", "SendBTData", "Cancel");
+        }
+        finally { this.IsBusy = false; }
+    }
+    private async void Upload_Clicked(object sender, EventArgs e)
+    {
+        if (App.g_Characteristic_2 == null)
+        {
+            await Shell.Current.DisplayAlert("Error", "Please connect to Anteater first.", "Cancel");
+            return;
+        }
+        // Get each LineSeries form graph
+        MyActivity.IsVisible = true;
+
+        ObservableCollection<MarmotAp.Models.Point> unlock = Unlock.ItemsSource as ObservableCollection<MarmotAp.Models.Point>;
+        await SendBTData(curTuneHeader, unlock);
+        Thread.Sleep(50);
+
+        ObservableCollection<MarmotAp.Models.Point> lockup = Lockup.ItemsSource as ObservableCollection<MarmotAp.Models.Point>;
+        await SendBTData(curTuneHeader, lockup);
+        Thread.Sleep(50);
+
+        ObservableCollection<MarmotAp.Models.Point> odon = ODon.ItemsSource as ObservableCollection<MarmotAp.Models.Point>;
+        await SendBTData(curTuneHeader, odon);
+        Thread.Sleep(50);
+
+        ObservableCollection<MarmotAp.Models.Point> odoff = ODoff.ItemsSource as ObservableCollection<MarmotAp.Models.Point>;
+        await SendBTData(curTuneHeader, odoff);
+        Thread.Sleep(50);
+
+        ObservableCollection<MarmotAp.Models.Point> shift12 = Shift_12.ItemsSource as ObservableCollection<MarmotAp.Models.Point>;
+        await SendBTData(curTuneHeader, shift12);
+        Thread.Sleep(50);
+
+        ObservableCollection<MarmotAp.Models.Point> shift23 = Shift_23.ItemsSource as ObservableCollection<MarmotAp.Models.Point>;
+        await SendBTData(curTuneHeader, shift23);
+        Thread.Sleep(50);
+
+        ObservableCollection<MarmotAp.Models.Point> shift21 = Shift_21.ItemsSource as ObservableCollection<MarmotAp.Models.Point>;
+        await SendBTData(curTuneHeader, shift21);
+        Thread.Sleep(50);
+
+        ObservableCollection<MarmotAp.Models.Point> shift32 = Shift_32.ItemsSource as ObservableCollection<MarmotAp.Models.Point>;
+        await SendBTData(curTuneHeader, shift32);
+        Thread.Sleep(50);
+
+        // TODO:
+        string sTune = "Tune 1";
+        if (icurrentTune == 2)
+            sTune = "Tune 2";
+        else if (icurrentTune == 3)
+            sTune = "Tune 3";
+        else
+            sTune = "Tune 1";
+
+        MyActivity.IsVisible = false;
+
+        await Shell.Current.DisplayAlert("Success", sTune + " Uploaded", "Ok");
+    }
     private async void SaveFile_Clicked(object sender, EventArgs e)
     {
         string sans = "";
 
         try
         {
-            var ans = await DisplayPromptAsync("Prompt", "Input file name:");
+            var ans = await Shell.Current.DisplayPromptAsync("Prompt", "Input file name:");
             if (ans == null)
                 return;
 
@@ -532,11 +657,11 @@ public partial class TunePage : ContentPage
                 System.IO.File.Delete(fullpath);
                 d.Save(fullpath);
 
-                await DisplayAlert("Success", "File Saved!", "Ok");
+                await Shell.Current.DisplayAlert("Success", "File Saved!", "Ok");
             }
             else
             {
-                await DisplayAlert("Error", "File name must end with '.tnz'", "Ok");
+                await Shell.Current.DisplayAlert("Error", "File name must end with '.tnz'", "Ok");
             }
         }
         catch (Exception ex)
@@ -556,6 +681,34 @@ public partial class TunePage : ContentPage
             lst.Add(sFile);
         }
         return lst;
+    }
+
+    private async void Filelist_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        Picker p = (Picker)sender;
+        if (p.SelectedItem != null)
+        {
+
+            var sel = p.SelectedItem;
+            if (!sel.ToString().ToLower().EndsWith(".xml"))
+            {
+                await Shell.Current.DisplayAlert("Filelist_SelectedIndexChanged Error", "Wrong file type!", "Ok");
+                return;
+            }
+            FileList.IsVisible = false;
+
+            ParseSelectedFileToTunes(sel.ToString());
+            sCurrentFile = sel.ToString();
+
+            Preferences.Set("Last_File", sel.ToString());
+
+        }
+        FileList.IsVisible = false;
+    }
+
+    private void FileList_Unfocused(object sender, FocusEventArgs e)
+    {
+        FileList.IsVisible = false;
     }
 
     private void LoadFile_Clicked(object sender, EventArgs e)
@@ -736,6 +889,7 @@ public partial class TunePage : ContentPage
 
             // Set to tune 1
             icurrentTune = 1;
+            curTuneHeader = 0x30;
             PageTitle.Text = "Tune 1 " + sFile;
 
             Unlock.ItemsSource = null;
@@ -765,33 +919,6 @@ public partial class TunePage : ContentPage
         {
             MyActivity.IsVisible = false;
         }
-    }
-    private async void Filelist_SelectedIndexChanged(object sender, EventArgs e)
-    {
-        Picker p = (Picker)sender;
-        if (p.SelectedItem != null)
-        {
-
-            var sel = p.SelectedItem;
-            if (!sel.ToString().ToLower().EndsWith(".xml"))
-            {
-                await DisplayAlert("Filelist_SelectedIndexChanged Error", "Wrong file type!", "Ok");
-                return;
-            }
-            FileList.IsVisible = false;
-
-            ParseSelectedFileToTunes(sel.ToString());
-            sCurrentFile = sel.ToString();
-
-            Preferences.Set("Last_File", sel.ToString());
-
-        }
-        FileList.IsVisible = false;
-    }
-
-    private void FileList_Unfocused(object sender, FocusEventArgs e)
-    {
-        FileList.IsVisible = false;
     }
 
     private void Exit_Clicked(object sender, EventArgs e)
@@ -964,6 +1091,7 @@ public partial class TunePage : ContentPage
         {
             TuneDataStack.IsVisible = false;
             icurrentTune = 0;
+            curTuneHeader = 0;
             Tune3_Clicked(sender, e);
             MainStack.IsVisible = true;
             return;
@@ -998,6 +1126,8 @@ public partial class TunePage : ContentPage
             MainStack.IsVisible = false;
             TuneDataStack.IsVisible = true;
             PageTitle.Text = "Tune Data " + sCurrentFile;
+            icurrentTune = 0;
+            curTuneHeader = 0;
         }
     }
 
@@ -1033,7 +1163,9 @@ public partial class TunePage : ContentPage
         }
         catch (Exception ex)
         {
-            DisplayAlert("Error *", "DiffRatio_SelectedIndexChanged failed " + ex.Message, "Ok");
+            Shell.Current.DisplayAlert("Error *", "DiffRatio_SelectedIndexChanged failed " + ex.Message, "Ok");
         }
     }
+
+
 }
