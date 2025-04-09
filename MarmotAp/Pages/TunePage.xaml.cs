@@ -207,7 +207,6 @@ public partial class TunePage : ContentPage
         curTuneHeader = 0;
 
     }
-
     private void SaveDefaultTunes()
     {
         VersionAndBuild v = new VersionAndBuild();
@@ -314,53 +313,60 @@ public partial class TunePage : ContentPage
     }
     private async void Chart_SelectionChanged(object sender, Syncfusion.Maui.Charts.ChartSelectionChangedEventArgs e)
     {
-        LineSeries ls = sender as LineSeries;
-        List<int> nix = e.NewIndexes;
-        ObservableCollection<Models.Point> lp = ls.ItemsSource as ObservableCollection<Models.Point>;
-        lp[nix[0]].y += iStep;
-        if (lp[nix[0]].y > 120)
-            lp[nix[0]].y = 120;
-        if (lp[nix[0]].y < 0)
-            lp[nix[0]].y = 0;
-        ls.ItemsSource = null;
-        ls.ItemsSource = lp;
-        switch (lp[nix[0]].Id)
+        try
         {
-            case "Unlock":
-                lblUnlock.Text = String.Format("TPS={0},MPH={1}", lp[nix[0]].x, lp[nix[0]].y);
-
-                break;
-            case "Lockup":
-                lblLockup.Text = String.Format("TPS={0},MPH={1}", lp[nix[0]].x, lp[nix[0]].y);
-                break;
-            case "ODoff":
-                lblODoff.Text = String.Format("TPS={0},MPH={1}", lp[nix[0]].x, lp[nix[0]].y);
-                break;
-            case "ODon":
-                lblODon.Text = String.Format("TPS={0},MPH={1}", lp[nix[0]].x, lp[nix[0]].y);
-                break;
-            case "Shift_12":
-                lblShift_12.Text = String.Format("TPS={0},MPH={1}", lp[nix[0]].x, lp[nix[0]].y);
-                break;
-            case "Shift_23":
-                lblShift_23.Text = String.Format("TPS={0},MPH={1}", lp[nix[0]].x, lp[nix[0]].y);
-                break;
-            case "Shift_21":
-                lblShift_21.Text = String.Format("TPS={0},MPH={1}", lp[nix[0]].x, lp[nix[0]].y);
-                break;
-            case "Shift_32":
-                lblShift_32.Text = String.Format("TPS={0},MPH={1}", lp[nix[0]].x, lp[nix[0]].y);
-                break;
-        }
-
-        if (LiveUpdate.IsChecked == true)
-        {
-            if (App.g_Characteristic_2 == null)
+            LineSeries ls = sender as LineSeries;
+            List<int> nix = e.NewIndexes;
+            ObservableCollection<Models.Point> lp = ls.ItemsSource as ObservableCollection<Models.Point>;
+            lp[nix[0]].y += iStep;
+            if (lp[nix[0]].y > 120)
+                lp[nix[0]].y = 120;
+            if (lp[nix[0]].y < 0)
+                lp[nix[0]].y = 0;
+            ls.ItemsSource = null;
+            ls.ItemsSource = lp;
+            switch (lp[nix[0]].Id)
             {
-                await Shell.Current.DisplayAlert("Error", "Please connect to Anteater first.", "Cancel");
-                return;
+                case "Unlock":
+                    lblUnlock.Text = String.Format("TPS={0},MPH={1}", lp[nix[0]].x, lp[nix[0]].y);
+
+                    break;
+                case "Lockup":
+                    lblLockup.Text = String.Format("TPS={0},MPH={1}", lp[nix[0]].x, lp[nix[0]].y);
+                    break;
+                case "ODoff":
+                    lblODoff.Text = String.Format("TPS={0},MPH={1}", lp[nix[0]].x, lp[nix[0]].y);
+                    break;
+                case "ODon":
+                    lblODon.Text = String.Format("TPS={0},MPH={1}", lp[nix[0]].x, lp[nix[0]].y);
+                    break;
+                case "Shift_12":
+                    lblShift_12.Text = String.Format("TPS={0},MPH={1}", lp[nix[0]].x, lp[nix[0]].y);
+                    break;
+                case "Shift_23":
+                    lblShift_23.Text = String.Format("TPS={0},MPH={1}", lp[nix[0]].x, lp[nix[0]].y);
+                    break;
+                case "Shift_21":
+                    lblShift_21.Text = String.Format("TPS={0},MPH={1}", lp[nix[0]].x, lp[nix[0]].y);
+                    break;
+                case "Shift_32":
+                    lblShift_32.Text = String.Format("TPS={0},MPH={1}", lp[nix[0]].x, lp[nix[0]].y);
+                    break;
             }
-            await SendBTData(curTuneHeader, lp);
+
+            if (LiveUpdate.IsChecked == true)
+            {
+                if (App.g_Characteristic_2 == null)
+                {
+                    await Shell.Current.DisplayAlert("Error", "Please connect to Anteater first.", "Cancel");
+                    return;
+                }
+                await SendBTData(curTuneHeader, lp);
+            }
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlert("Chart_SelectionChanged Error", ex.Message, "Ok");
         }
     }
     private string TuneSeriesToString(Tune tune, string seriesName)
@@ -512,12 +518,11 @@ public partial class TunePage : ContentPage
         }
         catch (Exception ex)
         {
-            Shell.Current.DisplayAlert("TuneSeriesToString Error", ex.Message, "Ok");
+            Shell.Current.DisplayAlert("CreateXmlDocFromTunes Error", ex.Message, "Ok");
 
         }
         return null;
     }
-
     private byte[] LineSeriesToByteArray(byte Tune, ObservableCollection<MarmotAp.Models.Point> data)
     {
         try
@@ -534,23 +539,18 @@ public partial class TunePage : ContentPage
 
             return b;
         }
-        catch
+        catch(Exception ex) 
         {
-            Shell.Current.DisplayAlert("Error", "SendBTData", "Cancel");
+            Shell.Current.DisplayAlert("LineSeriesToByteArray Error", ex.Message, "Cancel");
             return null;
         }
         finally { this.IsBusy = false; }
     }
     private async Task SendBTData(byte Tune, ObservableCollection<MarmotAp.Models.Point> data)
     {
-        //if (App.g_Characteristic_2 == null)
-        //{
-        //    await Shell.Current.DisplayAlert("Error *", "Are you connected?", "Cancel");
-        //    return;
-        //}
         if (data == null)
         {
-            await Shell.Current.DisplayAlert("Error *", "data == null", "Cancel");
+            await Shell.Current.DisplayAlert("SendBTData Error *", "data == null", "Cancel");
             return;
         }
         try
@@ -565,66 +565,78 @@ public partial class TunePage : ContentPage
             //await DisplayAlert("Rec", Encoding.UTF8.GetString(receivedBytes, 0, receivedBytes.Length) + Environment.NewLine, "OK");
 
         }
-        catch
+        catch( Exception ex) 
         {
-            await Shell.Current.DisplayAlert("Error", "SendBTData", "Cancel");
+            await Shell.Current.DisplayAlert("SendBTData Error", ex.Message, "Cancel");
         }
         finally { this.IsBusy = false; }
     }
     private async void Upload_Clicked(object sender, EventArgs e)
     {
-        if (App.g_Characteristic_2 == null)
+        try
         {
-            await Shell.Current.DisplayAlert("Error", "Please connect to Anteater first.", "Cancel");
-            return;
+            if (App.g_Characteristic_2 == null)
+            {
+                await Shell.Current.DisplayAlert("Error", "Please connect to Anteater first.", "Cancel");
+                return;
+            }
+            // Get each LineSeries form graph
+            MyActivity.IsVisible = true;
+
+            ObservableCollection<MarmotAp.Models.Point> unlock = Unlock.ItemsSource as ObservableCollection<MarmotAp.Models.Point>;
+            await SendBTData(curTuneHeader, unlock);
+            Thread.Sleep(50);
+
+            ObservableCollection<MarmotAp.Models.Point> lockup = Lockup.ItemsSource as ObservableCollection<MarmotAp.Models.Point>;
+            await SendBTData(curTuneHeader, lockup);
+            Thread.Sleep(50);
+
+            ObservableCollection<MarmotAp.Models.Point> odon = ODon.ItemsSource as ObservableCollection<MarmotAp.Models.Point>;
+            await SendBTData(curTuneHeader, odon);
+            Thread.Sleep(50);
+
+            ObservableCollection<MarmotAp.Models.Point> odoff = ODoff.ItemsSource as ObservableCollection<MarmotAp.Models.Point>;
+            await SendBTData(curTuneHeader, odoff);
+            Thread.Sleep(50);
+
+            ObservableCollection<MarmotAp.Models.Point> shift12 = Shift_12.ItemsSource as ObservableCollection<MarmotAp.Models.Point>;
+            await SendBTData(curTuneHeader, shift12);
+            Thread.Sleep(50);
+
+            ObservableCollection<MarmotAp.Models.Point> shift23 = Shift_23.ItemsSource as ObservableCollection<MarmotAp.Models.Point>;
+            await SendBTData(curTuneHeader, shift23);
+            Thread.Sleep(50);
+
+            ObservableCollection<MarmotAp.Models.Point> shift21 = Shift_21.ItemsSource as ObservableCollection<MarmotAp.Models.Point>;
+            await SendBTData(curTuneHeader, shift21);
+            Thread.Sleep(50);
+
+            ObservableCollection<MarmotAp.Models.Point> shift32 = Shift_32.ItemsSource as ObservableCollection<MarmotAp.Models.Point>;
+            await SendBTData(curTuneHeader, shift32);
+            Thread.Sleep(50);
+
+            // TODO:
+            string sTune = "Tune 1";
+            if (icurrentTune == 2)
+                sTune = "Tune 2";
+            else if (icurrentTune == 3)
+                sTune = "Tune 3";
+            else
+                sTune = "Tune 1";
+
+            MyActivity.IsVisible = false;
+
+            await Shell.Current.DisplayAlert("Success", sTune + " Uploaded", "Ok");
         }
-        // Get each LineSeries form graph
-        MyActivity.IsVisible = true;
+        catch(Exception ex)
+        {
+            await Shell.Current.DisplayAlert("Upload_Clicked Error", ex.Message, "Ok");
+        }
+        finally
+        {
+            MyActivity.IsVisible = false;
 
-        ObservableCollection<MarmotAp.Models.Point> unlock = Unlock.ItemsSource as ObservableCollection<MarmotAp.Models.Point>;
-        await SendBTData(curTuneHeader, unlock);
-        Thread.Sleep(50);
-
-        ObservableCollection<MarmotAp.Models.Point> lockup = Lockup.ItemsSource as ObservableCollection<MarmotAp.Models.Point>;
-        await SendBTData(curTuneHeader, lockup);
-        Thread.Sleep(50);
-
-        ObservableCollection<MarmotAp.Models.Point> odon = ODon.ItemsSource as ObservableCollection<MarmotAp.Models.Point>;
-        await SendBTData(curTuneHeader, odon);
-        Thread.Sleep(50);
-
-        ObservableCollection<MarmotAp.Models.Point> odoff = ODoff.ItemsSource as ObservableCollection<MarmotAp.Models.Point>;
-        await SendBTData(curTuneHeader, odoff);
-        Thread.Sleep(50);
-
-        ObservableCollection<MarmotAp.Models.Point> shift12 = Shift_12.ItemsSource as ObservableCollection<MarmotAp.Models.Point>;
-        await SendBTData(curTuneHeader, shift12);
-        Thread.Sleep(50);
-
-        ObservableCollection<MarmotAp.Models.Point> shift23 = Shift_23.ItemsSource as ObservableCollection<MarmotAp.Models.Point>;
-        await SendBTData(curTuneHeader, shift23);
-        Thread.Sleep(50);
-
-        ObservableCollection<MarmotAp.Models.Point> shift21 = Shift_21.ItemsSource as ObservableCollection<MarmotAp.Models.Point>;
-        await SendBTData(curTuneHeader, shift21);
-        Thread.Sleep(50);
-
-        ObservableCollection<MarmotAp.Models.Point> shift32 = Shift_32.ItemsSource as ObservableCollection<MarmotAp.Models.Point>;
-        await SendBTData(curTuneHeader, shift32);
-        Thread.Sleep(50);
-
-        // TODO:
-        string sTune = "Tune 1";
-        if (icurrentTune == 2)
-            sTune = "Tune 2";
-        else if (icurrentTune == 3)
-            sTune = "Tune 3";
-        else
-            sTune = "Tune 1";
-
-        MyActivity.IsVisible = false;
-
-        await Shell.Current.DisplayAlert("Success", sTune + " Uploaded", "Ok");
+        }
     }
     private async void SaveFile_Clicked(object sender, EventArgs e)
     {
@@ -673,37 +685,52 @@ public partial class TunePage : ContentPage
 
     private static List<string> ListFiles()
     {
-        List<string> lst = new List<string>();
-        var path = FileSystem.Current.AppDataDirectory;
-        string[] sFiles = System.IO.Directory.GetFiles(path);
-        foreach (string sFile in sFiles)
+        try
         {
-            lst.Add(sFile);
+            List<string> lst = new List<string>();
+            var path = FileSystem.Current.AppDataDirectory;
+            string[] sFiles = System.IO.Directory.GetFiles(path);
+            foreach (string sFile in sFiles)
+            {
+                lst.Add(sFile);
+            }
+            return lst;
         }
-        return lst;
+        catch (Exception ex)
+        {
+            Shell.Current.DisplayAlert("ListFiles Error", ex.Message, "Ok");
+        }
+        return null;
     }
-
     private async void Filelist_SelectedIndexChanged(object sender, EventArgs e)
     {
-        Picker p = (Picker)sender;
-        if (p.SelectedItem != null)
+        try
         {
-
-            var sel = p.SelectedItem;
-            if (!sel.ToString().ToLower().EndsWith(".xml"))
+            Picker p = (Picker)sender;
+            if (p.SelectedItem != null)
             {
-                await Shell.Current.DisplayAlert("Filelist_SelectedIndexChanged Error", "Wrong file type!", "Ok");
-                return;
+
+                var sel = p.SelectedItem;
+                if (!sel.ToString().ToLower().EndsWith(".xml"))
+                {
+                    await Shell.Current.DisplayAlert("Filelist_SelectedIndexChanged Error", "Wrong file type!", "Ok");
+                    return;
+                }
+                FileList.IsVisible = false;
+
+                ParseSelectedFileToTunes(sel.ToString());
+                sCurrentFile = sel.ToString();
+
+                Preferences.Set("Last_File", sel.ToString());
+
             }
             FileList.IsVisible = false;
-
-            ParseSelectedFileToTunes(sel.ToString());
-            sCurrentFile = sel.ToString();
-
-            Preferences.Set("Last_File", sel.ToString());
+        }
+        catch(Exception ex)
+        {
+            await Shell.Current.DisplayAlert("Filelist_SelectedIndexChanged Error", ex.Message, "Ok");
 
         }
-        FileList.IsVisible = false;
     }
 
     private void FileList_Unfocused(object sender, FocusEventArgs e)
@@ -713,24 +740,33 @@ public partial class TunePage : ContentPage
 
     private void LoadFile_Clicked(object sender, EventArgs e)
     {
-        List<string> lst = ListFiles();
-        FileList.Items.Clear();
-        if (lst.Count <= 1)
-        {
-            Shell.Current.DisplayAlert("Nothing", "No files", "Ok");
-            return;
-        }
-        foreach (string file in lst)
+        try
         {
 
-            if (file.Contains(".xml"))
+
+            List<string> lst = ListFiles();
+            FileList.Items.Clear();
+            if (lst.Count <= 1)
             {
-                System.IO.FileInfo fi = new System.IO.FileInfo(file);
-                FileList.Items.Add(fi.Name);
+                Shell.Current.DisplayAlert("Nothing", "No files", "Ok");
+                return;
             }
+            foreach (string file in lst)
+            {
+
+                if (file.Contains(".xml"))
+                {
+                    System.IO.FileInfo fi = new System.IO.FileInfo(file);
+                    FileList.Items.Add(fi.Name);
+                }
+            }
+            FileList.IsVisible = true;
+            FileList.Focus();
         }
-        FileList.IsVisible = true;
-        FileList.Focus();
+        catch (Exception ex)
+        {
+            Shell.Current.DisplayAlert("LoadFile_Clicked Error", ex.Message, "Ok");
+        }
     }
 
     private static async Task<string> ReadFile(string sFile)
@@ -749,10 +785,7 @@ public partial class TunePage : ContentPage
         }
         catch (Exception ex)
         {
-            // Handle this as you will 
-            string msg = ex.Message;
-            await Shell.Current.DisplayAlert("ReadFile Error", msg, "Ok");
-
+            await Shell.Current.DisplayAlert("ReadFile Error", ex.Message, "Ok");
         }
 
         return String.Empty;
@@ -821,9 +854,13 @@ public partial class TunePage : ContentPage
         List<TuneSeries> lstT1 = new List<TuneSeries>();
         List<TuneSeries> lstT2 = new List<TuneSeries>();
         List<TuneSeries> lstT3 = new List<TuneSeries>();
-        string xml = await ReadFile(sFile);
+        
         try
         {
+            string xml = await ReadFile(sFile);
+            if (xml == string.Empty)
+                throw new Exception("ReadFill returned null");
+
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(xml);
 
