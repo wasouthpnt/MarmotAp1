@@ -37,21 +37,10 @@
         </ShellContent>
     </FlyoutItem>
 
-    <!--<FlyoutItem Title="EditPage"
-            FlyoutIcon="{StaticResource IconSync}">
-        
-        <ShellContent ContentTemplate="{DataTemplate pages:EditPage}"
-                  Route="EditPage">
-            
-        </ShellContent>
-    </FlyoutItem>-->
-
-    <FlyoutItem Title="TunePage"
-            FlyoutIcon="{StaticResource IconSync}">
-
+    <FlyoutItem Title="Tunes"
+            FlyoutIcon="{StaticResource IconTachometer}">
         <ShellContent ContentTemplate="{DataTemplate pages:TunePage}"
                   Route="TunePage">
-
         </ShellContent>
     </FlyoutItem>
 
@@ -69,13 +58,6 @@
         </ShellContent>
     </FlyoutItem>
 
-    <FlyoutItem Title="About MarmotAp"
-                FlyoutIcon="{StaticResource IconQuestion}">
-        <ShellContent ContentTemplate="{DataTemplate pages:AboutPage}"
-                      Route="AboutPage">
-        </ShellContent>
-    </FlyoutItem>
-
     <FlyoutItem Title="Privacy statement"
                 FlyoutIcon="{StaticResource IconComment}">
         <ShellContent ContentTemplate="{DataTemplate pages:PrivacyStatementPage}"
@@ -83,8 +65,15 @@
         </ShellContent>
     </FlyoutItem>
 
+    <FlyoutItem Title="About"
+                FlyoutIcon="{StaticResource IconQuestion}">
+        <ShellContent ContentTemplate="{DataTemplate pages:AboutPage}"
+                      Route="AboutPage">
+        </ShellContent>
+    </FlyoutItem>
+
     <FlyoutItem Title="Test"
-                FlyoutIcon="{StaticResource IconTachometer}">
+                FlyoutIcon="{StaticResource IconBolt}">
         <ShellContent ContentTemplate="{DataTemplate pages:TestPage}"
                       Route="TestPage">
         </ShellContent>

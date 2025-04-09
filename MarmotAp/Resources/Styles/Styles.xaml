@@ -68,6 +68,12 @@
                Color="{StaticResource Primary}"
                Glyph="{x:Static local:IconFont.TachometerAlt}"/>
 
+    <FontImage x:Key="IconBolt"
+               FontFamily="FontAwesome"
+               Size="22"
+               Color="{StaticResource Primary}"
+               Glyph="{x:Static local:IconFont.Bolt}"/>
+
     <Style TargetType="ActivityIndicator">
         <Setter Property="Color" Value="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource White}}" />
     </Style>
