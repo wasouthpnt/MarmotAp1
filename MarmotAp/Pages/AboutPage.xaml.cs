@@ -1,3 +1,5 @@
+using System.Text;
+
 namespace MarmotAp.Pages;
 
 public partial class AboutPage : ContentPage
@@ -7,6 +9,7 @@ public partial class AboutPage : ContentPage
         InitializeComponent();
         BindingContext = viewModel;
     }
+
     protected override void OnNavigatedTo(NavigatedToEventArgs args)
     {
         base.OnNavigatedTo(args);
@@ -20,8 +23,9 @@ public partial class AboutPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
+        AboutPageViewModel viewModel = (AboutPageViewModel)BindingContext;
+        viewModel.ReadESP32Ver();
     }
-
 
     protected override void OnDisappearing()
     {

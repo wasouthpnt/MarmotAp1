@@ -8,12 +8,13 @@
 
     <ScrollView VerticalOptions="FillAndExpand">
         <VerticalStackLayout Padding="24">
-            <Grid RowDefinitions="Auto,Auto,*"
+            <Grid RowDefinitions="Auto,Auto,Auto,Auto,*"
                   RowSpacing="8"
+                  ColumnDefinitions="*,*,*,*,*"
                   HorizontalOptions="Fill"
                   VerticalOptions="Start">
 
-                <HorizontalStackLayout Grid.Row="0">
+                <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
                     <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10">
                     <Label Text="{Binding Name}" Grid.Column="0"
                            VerticalOptions="Center"
@@ -25,13 +26,17 @@
                     </Grid>
                 </HorizontalStackLayout>
 
-                <Label Grid.Row="1"
+                <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                        Text="{Binding Version, StringFormat='Version {0}'}"
                        Style="{StaticResource MediumLabel}"/>
 
-                <Label Grid.Row="2"
+                <Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3"
                        Text="{Binding Build, StringFormat='Build {0}'}"
                        Style="{StaticResource MediumLabel}"/>
+                
+                <Label Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3"
+                       Text="{Binding ESP32Ver}" 
+                       Style="{StaticResource MediumLabel}" />
 
             </Grid>
         </VerticalStackLayout>
