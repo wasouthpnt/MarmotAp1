@@ -571,17 +571,12 @@ public partial class TunePage : ContentPage
         }
         finally { this.IsBusy = false; }
     }
-    private async void Upload_Clicked(object sender, EventArgs e)
+
+    private async Task UploadCurrentTune()
     {
         try
         {
-            if (App.g_Characteristic_2 == null)
-            {
-                await Shell.Current.DisplayAlert("Error", "Please connect to Anteater first.", "Cancel");
-                return;
-            }
-            // Get each LineSeries form graph
-            MyActivity.IsVisible = true;
+            // Get each LineSeries form graph and send to device via BT
 
             ObservableCollection<MarmotAp.Models.Point> unlock = Unlock.ItemsSource as ObservableCollection<MarmotAp.Models.Point>;
             await SendBTData(curTuneHeader, unlock);
@@ -614,8 +609,44 @@ public partial class TunePage : ContentPage
             ObservableCollection<MarmotAp.Models.Point> shift32 = Shift_32.ItemsSource as ObservableCollection<MarmotAp.Models.Point>;
             await SendBTData(curTuneHeader, shift32);
             Thread.Sleep(50);
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlert("UploadCurrentTune Error", ex.Message, "Ok");
+        }
+    }
+    private async Task UploadTuneData()
+    {
+        try
+        {
+            // TODO - Convert parameters into a single comma delimited string and send to device via BT.
+            await Shell.Current.DisplayAlert("UploadTuneData", "TODO:", "Ok");
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlert("UploadTuneData Error", ex.Message, "Ok");
 
-            // TODO:
+        }
+    }
+    private async void Upload_Clicked(object sender, EventArgs e)
+    {
+        try
+        {
+            if (App.g_Characteristic_2 == null)
+            {
+                await Shell.Current.DisplayAlert("Error", "Please connect to Anteater first.", "Cancel");
+                return;
+            }
+            
+            MyActivity.IsVisible = true;
+
+            // Consider sending each Tune not just the current
+            await UploadCurrentTune();
+
+            // May be redundant
+            await UploadTuneData();
+
+            
             string sTune = "Tune 1";
             if (icurrentTune == 2)
                 sTune = "Tune 2";
