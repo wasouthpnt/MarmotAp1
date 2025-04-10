@@ -38,7 +38,7 @@ public partial class AboutPageViewModel : BaseViewModel
             {
                 string s = Preferences.Get("@string/CmdHeader", "") + "ver?:";
                 byte[] array = Encoding.UTF8.GetBytes(s);
-                await App.g_Characteristic_2.WriteAsync(array);                  // Query ESP version
+                await App.g_Characteristic_2.WriteAsync(array);                  // Query ESP32 version
 
                 var receivedBytes = await App.g_Characteristic_2.ReadAsync();
                 String sVer = Encoding.UTF8.GetString(receivedBytes.data, 0, receivedBytes.data.Length);
