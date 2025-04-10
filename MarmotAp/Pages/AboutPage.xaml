@@ -6,39 +6,39 @@
              ios:Page.UseSafeArea="True"
              Title="{Binding Title}">
 
-    <ScrollView VerticalOptions="FillAndExpand">
+    <Grid RowDefinitions="Auto" ColumnDefinitions="*" VerticalOptions="Center" HorizontalOptions="Center"  WidthRequest="400">
+    <ScrollView>
         <VerticalStackLayout Padding="24">
             <Grid RowDefinitions="Auto,Auto,Auto,Auto,*"
-                  RowSpacing="8"
-                  ColumnDefinitions="*,*,*,*,*"
+                  RowSpacing="12"
+                  ColumnDefinitions="*,*,*,*,*,*,*"
                   HorizontalOptions="Fill"
                   VerticalOptions="Start">
 
-                <HorizontalStackLayout Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
-                    <Grid ColumnDefinitions="*,*,*" ColumnSpacing="10">
-                    <Label Text="{Binding Name}" Grid.Column="0"
-                           VerticalOptions="Center"
-                           Style="{StaticResource MediumLabel}"/>
+                    <Image HeightRequest="128" WidthRequest="128" Grid.Row="0" Grid.Column="3"
+                        VerticalOptions="End"
+                        Source="logo_432x432.png}" />
 
-                    <Image HeightRequest="64" Grid.Column="2"
-                           VerticalOptions="End"
-                           Source="logo_432x432.png}"/>
-                    </Grid>
-                </HorizontalStackLayout>
 
-                <Label Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                       Text="{Binding Version, StringFormat='Version {0}'}"
-                       Style="{StaticResource MediumLabel}"/>
+                    <Label Text="{Binding Name}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="5"
+                        VerticalOptions="Center"
+                        Style="{StaticResource MoreLargeLabel}"/>
+
 
                 <Label Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3"
+                       Text="{Binding Version, StringFormat='Version {0}'}"
+                       Style="{StaticResource LargeLabel}"/>
+
+                <Label Grid.Row="2" Grid.Column="4" Grid.ColumnSpan="2"
                        Text="{Binding Build, StringFormat='Build {0}'}"
-                       Style="{StaticResource MediumLabel}"/>
+                       Style="{StaticResource LargeLabel}"/>
                 
-                <Label Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="3"
+                <Label Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="6" 
                        Text="{Binding ESP32Ver}" 
-                       Style="{StaticResource MediumLabel}" />
+                       Style="{StaticResource LargeLabel}" />
 
             </Grid>
         </VerticalStackLayout>
     </ScrollView>
+    </Grid>
 </ContentPage>
