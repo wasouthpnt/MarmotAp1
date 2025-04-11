@@ -1,3 +1,4 @@
+using Microsoft.Maui.ApplicationModel;
 using Syncfusion.Maui.Charts;
 using System.Text;
 using System.Xml;
@@ -620,7 +621,34 @@ public partial class TunePage : ContentPage
         try
         {
             // TODO - Convert parameters into a single comma delimited string and send to device via BT.
-            await Shell.Current.DisplayAlert("UploadTuneData", "TODO:", "Ok");
+            //await Shell.Current.DisplayAlert("UploadTuneData", "TODO:", "Ok");
+
+            // unused ??
+            int dsrevpermile = Convert.ToUInt16((5280 / (dTireSize * Math.PI / 12)) * dDiffRatio);
+            int TempRatio = 0;
+            int Pressure23 = 100;
+
+
+            string s = Preferences.Get("@string/CmdHeader", "") + "tundata!:";
+            s += String.Format("{0},{1},{2},{3},{4},{5},{6},{7},{8},{9},{10},{11}",
+                AntiHunt.Text, dDiffRatio.ToString(), dTireSize.ToString(),
+                TpsMin.Text, TpsMax.Text, AuxMin.Text,
+                AuxMax.Text, dsrevpermile.ToString(), BuildNum.Text,
+                TempRatio.ToString(), Pressure12.Text, Pressure23.ToString());
+
+
+            byte[] array = Encoding.UTF8.GetBytes(s);
+            await App.g_Characteristic_2.WriteAsync(array);                   // Write the tunedata string
+            Thread.Sleep(50);
+            var receivedBytes = await App.g_Characteristic_2.ReadAsync();
+            if (receivedBytes.data == null)
+            {
+                throw new Exception("No answer from device.");
+            }
+            string sval = Encoding.UTF8.GetString(receivedBytes.data, 0, receivedBytes.data.Length);
+
+            await Shell.Current.DisplayAlert("tundata", sval, "Ok");
+
         }
         catch (Exception ex)
         {
@@ -1132,10 +1160,32 @@ public partial class TunePage : ContentPage
             Shift_21.IsVisible = false;
             Shift_32.IsVisible = false;
 
+            bool bDark = true;
+            if (App.Current.RequestedTheme == AppTheme.Light)
+            {
+                bDark = false;
+            }
+
+            Application.Current.Resources.TryGetValue("ButtonOutline", out object btnStyle);
+            
+            Application.Current.Resources.TryGetValue("ButtonOutlineSelected", out object btnStyleSelected);
+            
+            Application.Current.Resources.TryGetValue("ButtonOutlineSelectedLight", out object btnStyleSelectedLight);
+
+            btnUnlock.Style = (Style)btnStyle;
+            btnLockup.Style = (Style)btnStyle;
+            btnODoff.Style = (Style)btnStyle;
+            btnODon.Style = (Style)btnStyle;
+            btnShift_12.Style = (Style)btnStyle;
+            btnShift_23.Style = (Style)btnStyle;
+            btnShift_21.Style = (Style)btnStyle;
+            btnShift_32.Style = (Style)btnStyle;
 
             ls.IsVisible = true;
-            //btn.BackgroundColor = Color.RosyBrown;
-
+            if (bDark)
+                btn.Style = (Style)btnStyleSelected;
+            else
+                btn.Style = (Style)btnStyleSelectedLight;
         }
         else
         {
@@ -1148,6 +1198,17 @@ public partial class TunePage : ContentPage
             Shift_23.IsVisible = true;
             Shift_21.IsVisible = true;
             Shift_32.IsVisible = true;
+
+            Application.Current.Resources.TryGetValue("ButtonOutline", out object btnStyle);
+
+            btnUnlock.Style = (Style)btnStyle;
+            btnLockup.Style = (Style)btnStyle;
+            btnODoff.Style = (Style)btnStyle;
+            btnODon.Style = (Style)btnStyle;
+            btnShift_12.Style = (Style)btnStyle;
+            btnShift_23.Style = (Style)btnStyle;
+            btnShift_21.Style = (Style)btnStyle;
+            btnShift_32.Style = (Style)btnStyle;
 
         }
     }

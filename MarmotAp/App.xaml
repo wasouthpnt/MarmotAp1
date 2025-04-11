@@ -83,6 +83,25 @@
                 <Setter Property="CornerRadius" Value="20" />
             </Style>
 
+            <Style x:Key="ButtonOutlineSelected" TargetType="Button">
+                <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource LightBackground}, Dark={StaticResource DarkBackground}}" />
+                <Setter Property="TextColor" Value="{StaticResource White}" />
+                <Setter Property="BorderColor" Value="{StaticResource White}" />
+                <Setter Property="BorderWidth" Value="4" />
+                <Setter Property="HeightRequest" Value="40" />
+                <Setter Property="CornerRadius" Value="20" />
+            </Style>
+
+            <Style x:Key="ButtonOutlineSelectedLight" TargetType="Button">
+                <Setter Property="Background" Value="{AppThemeBinding Light={StaticResource LightBackground}, Dark={StaticResource DarkBackground}}" />
+                <Setter Property="TextColor" Value="{StaticResource Black}" />
+                <Setter Property="BorderColor" Value="{StaticResource Black}" />
+                <Setter Property="BorderWidth" Value="4" />
+                <Setter Property="HeightRequest" Value="40" />
+                <Setter Property="CornerRadius" Value="20" />
+            </Style>
+
+
             <Style x:Key="CardView" TargetType="Frame">
                 <Setter Property="BorderColor" Value="#DDDDDD" />
                 <Setter Property="HasShadow" Value="True" />
