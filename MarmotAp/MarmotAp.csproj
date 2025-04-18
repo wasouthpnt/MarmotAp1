@@ -77,31 +77,31 @@
 	  <AndroidSigningStorePass>wyattsouth</AndroidSigningStorePass>
 	  <AndroidSigningKeyAlias>wyatt</AndroidSigningKeyAlias>
 	  <AndroidSigningKeyPass>wyattsouth</AndroidSigningKeyPass>
-	  <ApplicationVersion>4</ApplicationVersion>
+	  <ApplicationVersion>6</ApplicationVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|AnyCPU'">
-	  <ApplicationVersion>4</ApplicationVersion>
+	  <ApplicationVersion>6</ApplicationVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-maccatalyst|AnyCPU'">
-	  <ApplicationVersion>4</ApplicationVersion>
+	  <ApplicationVersion>6</ApplicationVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-windows10.0.19041.0|AnyCPU'">
-	  <ApplicationVersion>4</ApplicationVersion>
+	  <ApplicationVersion>6</ApplicationVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|AnyCPU'">
-	  <ApplicationVersion>4</ApplicationVersion>
+	  <ApplicationVersion>6</ApplicationVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-maccatalyst|AnyCPU'">
-	  <ApplicationVersion>4</ApplicationVersion>
+	  <ApplicationVersion>6</ApplicationVersion>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-windows10.0.19041.0|AnyCPU'">
-	  <ApplicationVersion>4</ApplicationVersion>
+	  <ApplicationVersion>6</ApplicationVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
