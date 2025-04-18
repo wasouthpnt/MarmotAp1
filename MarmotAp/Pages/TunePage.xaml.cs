@@ -92,6 +92,10 @@ public partial class TunePage : ContentPage
     {
         if (icurrentTune != 1)
         {
+            if (icurrentTune == 0)  // TuneData
+            {
+                OnSwipeLeft(sender, e);
+            }
             PageTitle.Text = "Tune 1 " + sCurrentFile;
 
             SaveCurrentTune();
@@ -128,6 +132,10 @@ public partial class TunePage : ContentPage
     {
         if (icurrentTune != 2)
         {
+            if (icurrentTune == 0)  // TuneData
+            {
+                OnSwipeLeft(sender, e);
+            }
             PageTitle.Text = "Tune 2 " + sCurrentFile;
 
             SaveCurrentTune();
@@ -164,6 +172,10 @@ public partial class TunePage : ContentPage
     {
         if (icurrentTune != 3)
         {
+            if (icurrentTune == 0)  // TuneData
+            {
+                OnSwipeLeft(sender, e);
+            }
             PageTitle.Text = "Tune 3 " + sCurrentFile;
 
             SaveCurrentTune();
@@ -200,7 +212,11 @@ public partial class TunePage : ContentPage
     {
         PageTitle.Text = "Tune Data " + sCurrentFile;
         if (TuneDataStack.IsVisible == true)
-        { return; }
+        {
+            icurrentTune = 0;
+            curTuneHeader = 0;
+            return; 
+        }
 
         MainStack.IsVisible = false;
         TuneDataStack.IsVisible = true;
